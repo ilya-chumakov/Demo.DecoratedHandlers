@@ -5,22 +5,27 @@ using Meziantou.Extensions.Logging.InMemory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
+// ReSharper disable InconsistentNaming
 
 namespace Demo.DecoratedHandlers.Tests;
 
-public class GenDemo(ITestOutputHelper output)
+public class GenDemo
 {
-    [Fact]
-    public async Task ConcreteHandler_WrapperIsGenerated_HandlerIsReplaced()
+    private readonly InMemoryLoggerProvider loggerProvider = new();
+    private readonly ServiceCollection services = new();
+
+    public GenDemo(ITestOutputHelper output)
     {
-        // Arrange
-        using var loggerProvider = new InMemoryLoggerProvider();
-        var services = new ServiceCollection();
         services.AddSingleton<ILoggerProvider>(loggerProvider);
         services.AddLogging(cfg =>
         {
             cfg.AddXunit(output);
         });
+    }
+
+    [Fact]
+    public async Task ConcreteHandler_WrapperIsGenerated_HandlerIsReplaced()
+    {
         services.AddTransient<IConcreteHandler, ConcreteHandler>();
         services.AddTransient<FirstDecorator>();
         services.AddTransient<SecondDecorator>();
@@ -38,11 +43,12 @@ public class GenDemo(ITestOutputHelper output)
         
         // decorators are called
         await actual.HandleAsync();
+        
         var logs = loggerProvider.Logs.Informations.ToList();
-        logs[0].Message.Contains("Hello from the decorator #2").Should().BeTrue();
-        logs[1].Message.Contains("Hello from the decorator #1").Should().BeTrue();
-        logs[2].Message.Contains("ConcreteHandler is called").Should().BeTrue();
-        logs[3].Message.Contains("Bye from the decorator #1").Should().BeTrue();
-        logs[4].Message.Contains("Bye from the decorator #2").Should().BeTrue();
+        logs[0].Message.Equals("Hello from the decorator #2").Should().BeTrue();
+        logs[1].Message.Equals("Hello from the decorator #1").Should().BeTrue();
+        logs[2].Message.Equals("ConcreteHandler is called!").Should().BeTrue();
+        logs[3].Message.Equals("Bye from the decorator #1").Should().BeTrue();
+        logs[4].Message.Equals("Bye from the decorator #2").Should().BeTrue();
     }
 }
