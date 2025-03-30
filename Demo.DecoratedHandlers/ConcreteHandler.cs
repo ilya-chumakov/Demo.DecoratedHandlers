@@ -12,12 +12,3 @@ public class ConcreteHandler(ILogger<ConcreteHandler> logger) : IConcreteHandler
         return Task.CompletedTask;
     }
 }
-
-// not used
-public class FooQuery
-{
-}
-
-public class FooResponse
-{
-}

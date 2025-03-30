@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.Tests;
 
-public class GenTests(ITestOutputHelper output)
+public class ConcreteHandlerTests(ITestOutputHelper output)
 {
     [Fact]
     public void Wrapper_AvailableViaReflection_OK()
@@ -14,16 +14,16 @@ public class GenTests(ITestOutputHelper output)
         var assembly = Assembly.GetAssembly(typeof(ConcreteHandler));
 
         var type = assembly
-            .GetType("Demo.DecoratedHandlers.ConcreteHandlerGeneratedWrapper", true, true)
+            .GetType("Demo.DecoratedHandlers.ConcreteHandlerSequence", true, true)
             .Should().NotBeNull();
 
-        var x = new ConcreteHandlerGeneratedWrapper(null);
+        var x = new ConcreteHandlerSequence(null);
     }
 
     [Fact]
     public void Wrapper_AvailableInCompileTime_OK()
     {
-        var x = new ConcreteHandlerGeneratedWrapper(null);
+        var x = new ConcreteHandlerSequence(null);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class GenTests(ITestOutputHelper output)
         output.WriteLine("Stage #2");
         output.WriteLine(typeof(ConcreteHandler).Assembly.FullName);
         var wr = new WeakReference(new ConcreteHandler(null));
-        
+
         output.WriteLine("Stage #3");
         foreach (string name in Registrations.Debug())
         {

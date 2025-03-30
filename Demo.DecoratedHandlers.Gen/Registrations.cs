@@ -26,7 +26,7 @@ namespace Demo.DecoratedHandlers.Gen
                 }
             }
         }
-        
+
         public static List<string> Debug()
         {
             var list = new List<string>();
@@ -35,10 +35,10 @@ namespace Demo.DecoratedHandlers.Gen
             {
                 if (assembly.FullName.Contains("Demo"))
                     list.Add(assembly.FullName);
-            
+
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (type.Name.Contains("ConcreteHandlerGeneratedWrapper"))
+                    if (type.Name.Contains("ConcreteHandlerSequence"))
                     {
                         list.Add(type.FullName);
                     }

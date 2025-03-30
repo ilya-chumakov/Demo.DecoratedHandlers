@@ -3,9 +3,9 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
-namespace Demo.DecoratedHandlers.NoGeneration.Tests;
+namespace Demo.DecoratedHandlers.NoGeneration.Tests.Generic;
 
-public class ConcreteHandlerTests(ITestOutputHelper output)
+public class GenericHandlerTests(ITestOutputHelper output)
 {
     [Fact]
     public async Task ConcreteHandler_WrapperIsCoded_HandlerIsReplaced()
@@ -15,19 +15,19 @@ public class ConcreteHandlerTests(ITestOutputHelper output)
         {
             cfg.AddXunit(output);
         });
-        services.AddTransient<IConcreteHandler, ConcreteHandler>();
+        services.AddTransient<IGenericHandler<FooCommand>, FooCommandHandler>();
         services.AddTransient<FirstDecorator>();
         services.AddTransient<SecondDecorator>();
 
         // Before this line everything is registered in a natural way.
         // Now replace our handler registration with a source-generated wrapper.
-        services.ReplaceHandlerWithMock();
+        services.ReplaceHandlerWithSequence();
         var provider = services.BuildServiceProvider();
 
-        var actual = provider.GetRequiredService<IConcreteHandler>();
+        var actual = provider.GetRequiredService<IGenericHandler<FooCommand>>();
 
-        await actual.HandleAsync();
-        
-        actual.GetType().Should().Be(typeof(MockWrapper));
+        await actual.HandleAsync(new FooCommand());
+
+        actual.GetType().Should().Be(typeof(GenericSequence));
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers.NoGeneration.Tests;
+namespace Demo.DecoratedHandlers.NoGeneration.Tests.Concrete;
 
 public interface IConcreteHandler
 {
     Task HandleAsync();
 }
-public class ConcreteHandler(ILogger<ConcreteHandler> logger) : IConcreteHandler
+
+public class GenericHandler(ILogger<GenericHandler> logger) : IConcreteHandler
 {
     public Task HandleAsync()
     {

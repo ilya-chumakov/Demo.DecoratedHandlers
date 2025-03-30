@@ -5,6 +5,7 @@ using Meziantou.Extensions.Logging.InMemory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
+
 // ReSharper disable InconsistentNaming
 
 namespace Demo.DecoratedHandlers.Tests;
@@ -40,10 +41,10 @@ public class GenDemo
 
         // type is changed
         actual.GetType().Should().NotBe(typeof(ConcreteHandler));
-        
+
         // decorators are called
         await actual.HandleAsync();
-        
+
         var logs = loggerProvider.Logs.Informations.ToList();
         logs[0].Message.Equals("Hello from the decorator #2").Should().BeTrue();
         logs[1].Message.Equals("Hello from the decorator #1").Should().BeTrue();
