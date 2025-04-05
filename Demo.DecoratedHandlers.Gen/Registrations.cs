@@ -21,7 +21,7 @@ namespace Demo.DecoratedHandlers.Gen
 
                     foreach (var method in methods)
                     {
-                        method.Invoke(null, new object[] { services });
+                        method.Invoke(null, [services]);
                     }
                 }
             }
@@ -38,7 +38,7 @@ namespace Demo.DecoratedHandlers.Gen
 
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (type.Name.Contains("ConcreteHandlerSequence"))
+                    if (type.Name.Contains("ConcreteHandlerPipeline"))
                     {
                         list.Add(type.FullName);
                     }

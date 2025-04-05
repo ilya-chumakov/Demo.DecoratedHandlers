@@ -14,16 +14,16 @@ public class GenericHandlerTests(ITestOutputHelper output)
         var assembly = Assembly.GetAssembly(typeof(FooCommandHandler));
 
         var type = assembly
-            .GetType("Demo.DecoratedHandlers.FooCommandHandlerSequence", true, true)
+            .GetType("Demo.DecoratedHandlers.FooCommandHandlerPipeline", true, true)
             .Should().NotBeNull();
 
-        var x = new FooCommandHandlerSequence(null);
+        var x = new FooCommandHandlerPipeline(null);
     }
 
     [Fact]
     public void Wrapper_AvailableInCompileTime_OK()
     {
-        var x = new FooCommandHandlerSequence(null);
+        IGenericHandler<FooQuery> x = new FooCommandHandlerPipeline(null);
     }
 
     [Fact]

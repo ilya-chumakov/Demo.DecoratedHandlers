@@ -38,7 +38,7 @@ namespace Demo.DecoratedHandlers.Gen
 
                 foreach (INamedTypeSymbol handler in handlers)
                 {
-                    ctx.AddSource($"{handler.Name}Sequence.g.cs", GenerateDecorator(handler, globalDecorators));
+                    ctx.AddSource($"{handler.Name}Pipeline.g.cs", GenerateDecorator(handler, globalDecorators));
                 }
             });
         }
@@ -65,7 +65,7 @@ namespace Demo.DecoratedHandlers.Gen
         {
             var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
             var handlerName = classSymbol.Name;
-            var className = $"{handlerName}Sequence";
+            var className = $"{handlerName}Pipeline";
             string targetFunc = "hf";
 
             var sb = new StringBuilder();
@@ -105,7 +105,7 @@ namespace Demo.DecoratedHandlers.Gen
         public static class ServiceCollectionExtensions_{className}
         {{
             [RegisterThis]
-            public static void RegisterSequence(this IServiceCollection services)
+            public static void RegisterPipeline(this IServiceCollection services)
             {{
                 services.RemoveAll<IConcreteHandler>();
                 services.AddTransient<IConcreteHandler, {className}>();

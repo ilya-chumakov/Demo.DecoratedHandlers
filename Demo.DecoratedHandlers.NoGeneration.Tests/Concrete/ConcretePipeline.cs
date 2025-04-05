@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Demo.DecoratedHandlers.NoGeneration.Tests.Concrete;
 
-public class ConcreteSequence(IServiceProvider provider) : IConcreteHandler
+public class ConcretePipeline(IServiceProvider provider) : IConcreteHandler
 {
     public Task HandleAsync()
     {
@@ -21,10 +21,10 @@ public class ConcreteSequence(IServiceProvider provider) : IConcreteHandler
 
 public static class ServiceCollectionExtensions
 {
-    public static void ReplaceHandlerWithSequence(this IServiceCollection services)
+    public static void ReplaceHandlerWithPipeline(this IServiceCollection services)
     {
         services.RemoveAll<IConcreteHandler>();
-        services.AddTransient<IConcreteHandler, ConcreteSequence>();
+        services.AddTransient<IConcreteHandler, ConcretePipeline>();
         services.AddTransient<GenericHandler>();
     }
 }

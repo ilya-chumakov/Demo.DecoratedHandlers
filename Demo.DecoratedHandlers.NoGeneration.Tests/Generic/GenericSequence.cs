@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Demo.DecoratedHandlers.NoGeneration.Tests.Generic;
 
-public class GenericSequence(IServiceProvider provider) : IGenericHandler<FooCommand>
+public class GenericPipeline(IServiceProvider provider) : IGenericHandler<FooCommand>
 {
     public Task HandleAsync(FooCommand command)
     {
@@ -21,10 +21,10 @@ public class GenericSequence(IServiceProvider provider) : IGenericHandler<FooCom
 
 public static class ServiceCollectionExtensions
 {
-    public static void ReplaceHandlerWithSequence(this IServiceCollection services)
+    public static void ReplaceHandlerWithPipeline(this IServiceCollection services)
     {
         services.RemoveAll<IGenericHandler<FooCommand>>();
-        services.AddTransient<IGenericHandler<FooCommand>, GenericSequence>();
+        services.AddTransient<IGenericHandler<FooCommand>, GenericPipeline>();
         services.AddTransient<FooCommandHandler>();
     }
 }

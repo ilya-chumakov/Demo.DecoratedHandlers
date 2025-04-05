@@ -14,16 +14,16 @@ public class ConcreteHandlerTests(ITestOutputHelper output)
         var assembly = Assembly.GetAssembly(typeof(ConcreteHandler));
 
         var type = assembly
-            .GetType("Demo.DecoratedHandlers.ConcreteHandlerSequence", true, true)
+            .GetType("Demo.DecoratedHandlers.ConcreteHandlerPipeline", true, true)
             .Should().NotBeNull();
 
-        var x = new ConcreteHandlerSequence(null);
+        var x = new ConcreteHandlerPipeline(null);
     }
 
     [Fact]
     public void Wrapper_AvailableInCompileTime_OK()
     {
-        var x = new ConcreteHandlerSequence(null);
+        var x = new ConcreteHandlerPipeline(null);
     }
 
     [Fact]

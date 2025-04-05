@@ -21,13 +21,13 @@ public class GenericHandlerTests(ITestOutputHelper output)
 
         // Before this line everything is registered in a natural way.
         // Now replace our handler registration with a source-generated wrapper.
-        services.ReplaceHandlerWithSequence();
+        services.ReplaceHandlerWithPipeline();
         var provider = services.BuildServiceProvider();
 
         var actual = provider.GetRequiredService<IGenericHandler<FooCommand>>();
 
         await actual.HandleAsync(new FooCommand());
 
-        actual.GetType().Should().Be(typeof(GenericSequence));
+        actual.GetType().Should().Be(typeof(GenericPipeline));
     }
 }
