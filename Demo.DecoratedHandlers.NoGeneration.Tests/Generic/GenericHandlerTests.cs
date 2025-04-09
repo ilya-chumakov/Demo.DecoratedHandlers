@@ -15,16 +15,18 @@ public class GenericHandlerTests(ITestOutputHelper output)
         {
             cfg.AddXunit(output);
         });
-        services.AddTransient<IGenericHandler<FooCommand>, FooCommandHandler>();
+        services.AddTransient<IGenericHandler<FooCommand, FooCommandResponse>, FooCommandHandler>();
         services.AddTransient<FirstDecorator>();
         services.AddTransient<SecondDecorator>();
+        services.AddTransient(typeof(FirstBehavior<,>));
+        services.AddTransient(typeof(SecondBehavior<,>));
 
         // Before this line everything is registered in a natural way.
         // Now replace our handler registration with a source-generated wrapper.
         services.ReplaceHandlerWithPipeline();
         var provider = services.BuildServiceProvider();
 
-        var actual = provider.GetRequiredService<IGenericHandler<FooCommand>>();
+        var actual = provider.GetRequiredService<IGenericHandler<FooCommand, FooCommandResponse>>();
 
         await actual.HandleAsync(new FooCommand());
 

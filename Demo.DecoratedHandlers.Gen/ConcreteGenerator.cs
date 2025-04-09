@@ -6,70 +6,70 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace Demo.DecoratedHandlers.Gen
+namespace Demo.DecoratedHandlers.Gen;
+
+[Generator]
+public class ConcreteGenerator : IIncrementalGenerator
 {
-    [Generator]
-    public class ConcreteGenerator : IIncrementalGenerator
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        public void Initialize(IncrementalGeneratorInitializationContext context)
+        // Find handlers with the attribute
+        var provider = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: (node, _) => node is ClassDeclarationSyntax,
+                transform: (ctx, _) => GetClassSymbolIfDecorated(ctx)
+            )
+            .Where(symbol => symbol != null)
+            .Collect();
+
+        context.RegisterSourceOutput(provider, (ctx, symbols) =>
         {
-            // Find handlers with the attribute
-            var provider = context.SyntaxProvider
-                .CreateSyntaxProvider(
-                    predicate: (node, _) => node is ClassDeclarationSyntax,
-                    transform: (ctx, _) => GetClassSymbolIfDecorated(ctx)
-                )
-                .Where(symbol => symbol != null)
-                .Collect();
+            var globalDecorators = symbols.Where(x =>
+                    x.GetAttributes().Any(attr => attr.AttributeClass?.Name == nameof(UseThisDecorator)))
+                .ToList();
 
-            context.RegisterSourceOutput(provider, (ctx, symbols) =>
+            var handlers = symbols.Where(x =>
+                !x.IsGenericType &&
+                // todo solve dependency
+                //x.Interfaces.Any(i => i.Name == nameof(IConcreteHandler)) &&
+                x.Interfaces.Any(i => i.Name == "IConcreteHandler") &&
+                x.GetAttributes().Any(attr => attr.AttributeClass?.Name == nameof(DecorateThisHandler))
+            );
+
+            foreach (INamedTypeSymbol handler in handlers)
             {
-                var globalDecorators = symbols.Where(x =>
-                        x.GetAttributes().Any(attr => attr.AttributeClass?.Name == nameof(UseThisDecorator)))
-                    .ToList();
-
-                var handlers = symbols.Where(x =>
-                    !x.IsGenericType &&
-                    // todo solve dependency
-                    //x.Interfaces.Any(i => i.Name == nameof(IConcreteHandler)) &&
-                    x.Interfaces.Any(i => i.Name == "IConcreteHandler") &&
-                    x.GetAttributes().Any(attr => attr.AttributeClass?.Name == nameof(DecorateThisHandler))
-                );
-
-                foreach (INamedTypeSymbol handler in handlers)
-                {
-                    ctx.AddSource($"{handler.Name}Pipeline.g.cs", GenerateDecorator(handler, globalDecorators));
-                }
-            });
-        }
-
-        private static INamedTypeSymbol GetClassSymbolIfDecorated(GeneratorSyntaxContext context)
-        {
-            var declaration = (ClassDeclarationSyntax)context.Node;
-            var model = context.SemanticModel;
-            var symbol = model.GetDeclaredSymbol(declaration);
-
-            if (symbol?.GetAttributes().Any(attr =>
-                    attr.AttributeClass?.Name == nameof(DecorateThisHandler)
-                    || attr.AttributeClass?.Name == nameof(UseThisDecorator)
-                ) == true)
-            {
-                return symbol;
+                ctx.AddSource($"{handler.Name}Pipeline.g.cs", GenerateDecorator(handler, globalDecorators));
             }
+        });
+    }
 
-            return null;
+    private static INamedTypeSymbol GetClassSymbolIfDecorated(GeneratorSyntaxContext context)
+    {
+        var declaration = (ClassDeclarationSyntax)context.Node;
+        var model = context.SemanticModel;
+        var symbol = model.GetDeclaredSymbol(declaration);
+
+        if (symbol?.GetAttributes().Any(attr =>
+                attr.AttributeClass?.Name == nameof(DecorateThisHandler)
+                || attr.AttributeClass?.Name == nameof(UseThisDecorator)
+            ) == true)
+        {
+            return symbol;
         }
 
-        private static SourceText GenerateDecorator(INamedTypeSymbol classSymbol,
-            List<INamedTypeSymbol> globalDecorators)
-        {
-            var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
-            var handlerName = classSymbol.Name;
-            var className = $"{handlerName}Pipeline";
-            string targetFunc = "hf";
+        return null;
+    }
 
-            var sb = new StringBuilder();
-            sb.Append($@"
+    private static SourceText GenerateDecorator(INamedTypeSymbol classSymbol,
+        List<INamedTypeSymbol> globalDecorators)
+    {
+        var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
+        var handlerName = classSymbol.Name;
+        var className = $"{handlerName}Pipeline";
+        string targetFunc = "hf";
+
+        var sb = new StringBuilder();
+        sb.Append($@"
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Demo.DecoratedHandlers.Gen;
@@ -85,19 +85,19 @@ namespace Demo.DecoratedHandlers.Gen
 			    var {targetFunc} = () => handler.HandleAsync();
     ");
 
-            for (var i = 0; i < globalDecorators.Count; i++)
-            {
-                string currentFunc = $"df{i}";
-                string currentDecorator = $"d{i}";
+        for (var i = 0; i < globalDecorators.Count; i++)
+        {
+            string currentFunc = $"df{i}";
+            string currentDecorator = $"d{i}";
 
-                sb.Append($@"
+            sb.Append($@"
                 var {currentDecorator} = provider.GetRequiredService<{globalDecorators[i].Name}>();
                 var {currentFunc} = () => {currentDecorator}.HandleAsync({targetFunc});
         ");
-                targetFunc = currentFunc;
-            }
+            targetFunc = currentFunc;
+        }
 
-            sb.Append($@"
+        sb.Append($@"
 			    return {targetFunc}();
 		    }}
         }} 
@@ -114,7 +114,6 @@ namespace Demo.DecoratedHandlers.Gen
         }}
     }} 
         ");
-            return SourceText.From(sb.ToString(), Encoding.UTF8);
-        }
+        return SourceText.From(sb.ToString(), Encoding.UTF8);
     }
 }
