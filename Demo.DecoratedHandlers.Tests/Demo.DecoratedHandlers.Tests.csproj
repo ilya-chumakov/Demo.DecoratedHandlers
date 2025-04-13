@@ -7,6 +7,16 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <!--<ItemGroup>
+    <Compile Remove="Baselines\Test.content.cs" />
+  </ItemGroup>
+-->
+  <ItemGroup>
+    <Content Include="Baselines\Test.generated.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Bodrocode.Xunit.Logs" Version="0.1.2" />
     <PackageReference Include="coverlet.collector" Version="6.0.4">

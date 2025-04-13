@@ -3,12 +3,14 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
+// ReSharper disable PreferConcreteValueOverDefault
 // ReSharper disable RedundantLambdaParameterType
 
 namespace Demo.DecoratedHandlers.Gen;
 
-[Generator]
-public class GenericGenerator : IIncrementalGenerator
+//[Generator]
+public class PipelineGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -32,9 +34,11 @@ public class GenericGenerator : IIncrementalGenerator
                         symbol.GetAttributes()
                             .Any(attr => attr.AttributeClass?.Name == nameof(DecorateThisHandler)))
                     {
-                        return new HandlerData(
+                        var @interface = symbol.Interfaces.First();
+                        return new HandlerDescription(
                             symbol.Name,
-                            symbol.Interfaces.First().TypeArguments.First().Name!,
+                            @interface.TypeArguments[0].Name!,
+                            @interface.TypeArguments[1].Name!,
                             symbol.ContainingNamespace.ToDisplayString()
                         );
                     }
@@ -55,7 +59,7 @@ public class GenericGenerator : IIncrementalGenerator
                     if (symbol is { IsGenericType: false } &&
                         symbol.GetAttributes().Any(attr => attr.AttributeClass?.Name == nameof(UseThisDecorator)))
                     {
-                        return new DecoratorData(symbol.Name);
+                        return new BehaviorDescription(symbol.Name);
                     }
                     return default;
                 })
@@ -71,7 +75,9 @@ public class GenericGenerator : IIncrementalGenerator
 
             foreach (var handler in handlers)
             {
-                ctx.AddSource($"{handler.HandlerTypeName}_Pipeline.g.cs", TextBuilder.CreatePipeline(handler, decorators));
+                string filename = $"{handler.HandlerTypeName}_Pipeline.g.cs";
+                SourceText sourceText = TextEmitter.CreatePipelineSource(handler, decorators);
+                ctx.AddSource(filename, sourceText);
             }
         });
     }

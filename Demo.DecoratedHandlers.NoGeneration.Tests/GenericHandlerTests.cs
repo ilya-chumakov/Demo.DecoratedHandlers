@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
-namespace Demo.DecoratedHandlers.NoGeneration.Tests.Generic;
+namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
 public class GenericHandlerTests(ITestOutputHelper output)
 {
@@ -15,9 +15,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
         {
             cfg.AddXunit(output);
         });
-        services.AddTransient<IGenericHandler<FooCommand, FooCommandResponse>, FooCommandHandler>();
-        services.AddTransient<FirstDecorator>();
-        services.AddTransient<SecondDecorator>();
+        services.AddTransient<IGenericHandler<BarQuery, BarResponse>, BarQueryHandler>();
         services.AddTransient(typeof(FirstBehavior<,>));
         services.AddTransient(typeof(SecondBehavior<,>));
 
@@ -26,9 +24,9 @@ public class GenericHandlerTests(ITestOutputHelper output)
         services.ReplaceHandlerWithPipeline();
         var provider = services.BuildServiceProvider();
 
-        var actual = provider.GetRequiredService<IGenericHandler<FooCommand, FooCommandResponse>>();
+        var actual = provider.GetRequiredService<IGenericHandler<BarQuery, BarResponse>>();
 
-        await actual.HandleAsync(new FooCommand());
+        await actual.HandleAsync(new BarQuery());
 
         actual.GetType().Should().Be(typeof(GenericPipeline));
     }

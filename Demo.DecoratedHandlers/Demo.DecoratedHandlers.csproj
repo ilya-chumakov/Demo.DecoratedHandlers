@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
   <!--<ItemGroup>

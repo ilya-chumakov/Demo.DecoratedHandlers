@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers.NoGeneration.Tests.Generic;
+namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
 public delegate Task<TResponse> RequestHandlerDelegate<TResponse>();
 

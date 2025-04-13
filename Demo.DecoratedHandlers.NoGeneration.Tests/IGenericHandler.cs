@@ -1,4 +1,4 @@
-﻿namespace Demo.DecoratedHandlers.NoGeneration.Tests.Generic;
+﻿namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
 public interface IGenericHandler<in TInput, TOutput>
 {

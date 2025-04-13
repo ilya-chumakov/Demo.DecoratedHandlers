@@ -38,7 +38,7 @@ public static class Registrations
 
             foreach (var type in assembly.GetTypes())
             {
-                if (type.Name.Contains("ConcreteHandlerPipeline"))
+                if (type.Name.Contains("Handler"))
                 {
                     list.Add(type.FullName);
                 }
