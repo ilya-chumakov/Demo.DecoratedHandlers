@@ -32,16 +32,16 @@ public class TextEmitterTests(ITestOutputHelper output)
 
         string baseline = LineEndingsHelper.Normalize(content);
         string[] expectedLines = baseline
-            //.Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString())
+            .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString())
             .Split(Environment.NewLine);
 
-        bool isOk = RoslynTestUtils.CompareLines(expectedLines, actual, out string errorMessage);
+        bool areEqual = RoslynTestUtils.CompareLines(expectedLines, actual, out string errorMessage);
 
-        if (!isOk)
+        if (!areEqual)
         {
             output.WriteLine(actual.ToString());
         }
 
-        Assert.True(isOk, errorMessage);
+        Assert.True(areEqual, errorMessage);
     }
 }

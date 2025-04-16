@@ -76,10 +76,10 @@ public static class TextEmitter
                       }
                   } 
 
-                  public static class ServiceCollectionExtensions_{{pipelineType}}
+                  internal static class ServiceCollectionExtensions_{{pipelineType}}
                   {
                       [RegisterThis]
-                      public static void RegisterPipeline(this IServiceCollection services)
+                      internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
                       {
                           services.RemoveAll<IGenericHandler<{{typePair}}>>();
                           services.AddTransient<IGenericHandler<{{typePair}}>, {{pipelineType}}>();

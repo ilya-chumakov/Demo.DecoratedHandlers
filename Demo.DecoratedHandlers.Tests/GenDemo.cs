@@ -33,7 +33,7 @@ public class GenDemo
 
         // before this line everything is registered in a natural way.
         // now replace our handler registration with a source-generated wrapper.
-        services.ApplyGeneratedRegistrations();
+        services.AddPipelines();
         var provider = services.BuildServiceProvider();
 
         // Act

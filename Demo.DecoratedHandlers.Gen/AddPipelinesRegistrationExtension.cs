@@ -6,22 +6,29 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.DecoratedHandlers.Gen;
 
-public static class Registrations
+public static class AddPipelinesRegistrationExtension
 {
-    public static void ApplyGeneratedRegistrations(this IServiceCollection services)
+    private static readonly Type MarkerAttributeType = typeof(RegisterThis);
+
+    /// <summary>
+    ///     This method has to be called after all handlers are registered.
+    ///     It replaces "raw" handler registrations with source-generated pipelines.
+    /// </summary>
+    public static void AddPipelines(this IServiceCollection services)
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        object[] parameters = [services];
 
         foreach (var assembly in assemblies)
         {
             foreach (var type in assembly.GetTypes())
             {
-                var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                    .Where(m => m.GetCustomAttributes(typeof(RegisterThis), false).Any());
+                var methods = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
+                    .Where(m => m.GetCustomAttributes(MarkerAttributeType, false).Length > 0);
 
                 foreach (var method in methods)
                 {
-                    method.Invoke(null, [services]);
+                    method.Invoke(null, parameters);
                 }
             }
         }

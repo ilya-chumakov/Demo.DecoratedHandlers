@@ -12,6 +12,7 @@ public class UseThisDecorator : Attribute
 {
 }
 
+//todo visibility to internal
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
 public class RegisterThis : Attribute
 {

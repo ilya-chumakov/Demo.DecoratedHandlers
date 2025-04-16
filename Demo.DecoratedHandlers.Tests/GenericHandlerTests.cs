@@ -30,7 +30,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
     public void Debug()
     {
         output.WriteLine("Stage #1");
-        foreach (string name in Registrations.Debug())
+        foreach (string name in AddPipelinesRegistrationExtension.Debug())
         {
             output.WriteLine(name);
         }
@@ -40,7 +40,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
         var wr = new WeakReference(new FooQueryHandler(null));
 
         output.WriteLine("Stage #3");
-        foreach (string name in Registrations.Debug())
+        foreach (string name in AddPipelinesRegistrationExtension.Debug())
         {
             output.WriteLine(name);
         }
