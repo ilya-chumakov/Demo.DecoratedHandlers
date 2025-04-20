@@ -1,7 +1,11 @@
-using Demo.DecoratedHandlers.Abstractions;
-// ReSharper disable CheckNamespace
+/*
+ * This code does not participate in source generation.
+ * It provides types necessary for the static snapshot of generated code to compile.
+ */
 
-namespace FooNamespace;
+using Demo.DecoratedHandlers.Abstractions;
+
+namespace Demo.DecoratedHandlers.Tests.Text.Snapshots;
 
 public record Alpha;
 public record Omega;

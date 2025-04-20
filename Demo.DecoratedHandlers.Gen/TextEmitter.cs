@@ -34,6 +34,9 @@ public static class TextEmitter
         var sb = new StringBuilder(256);
         sb.AppendLine(
             $$"""
+              using System;
+              using System.Threading;
+              using System.Threading.Tasks;
               using Demo.DecoratedHandlers.Abstractions;
               using Microsoft.Extensions.DependencyInjection;
               using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -51,7 +54,7 @@ public static class TextEmitter
                       {
                           var handler = provider.GetRequiredService<{{handlerType}}>(); 
                           {{delegateType}} {{targetFunc}} = () => handler.HandleAsync(input, ct);
-                    
+             
               """);
 
         for (int i = 0; i < behaviors.Count; i++)
@@ -65,13 +68,12 @@ public static class TextEmitter
                              var {currentBehavior} = provider.GetRequiredService<{name}>();
                              {delegateType} {currentFunc} = () => {currentBehavior}.Handle(input, {targetFunc}, ct);
                  """);
-            sb.AppendLine();
 
             targetFunc = currentFunc;
         }
 
         sb.Append(
-            $$"""
+             $$"""
                           return {{targetFunc}}();
                       }
                   } 

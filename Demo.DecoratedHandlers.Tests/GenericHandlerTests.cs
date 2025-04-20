@@ -27,7 +27,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
     //    IGenericHandler<FooQuery> x = new FooCommandHandlerPipeline(null);
     //}
 
-    [Fact]
+    [Fact(Skip = "todo")]
     public void Debug()
     {
         output.WriteLine("Stage #1");

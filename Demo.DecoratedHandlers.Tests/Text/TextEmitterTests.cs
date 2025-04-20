@@ -1,5 +1,5 @@
 ﻿using Demo.DecoratedHandlers.Gen;
-using FooNamespace;
+using Demo.DecoratedHandlers.Tests.Text.Snapshots;
 using Microsoft.CodeAnalysis.Text;
 using Xunit.Abstractions;
 
@@ -15,19 +15,22 @@ public class TextEmitterTests(ITestOutputHelper output)
                 HandlerTypeName: nameof(FooHandler),
                 InputTypeName: nameof(Alpha),
                 OutputTypeName: nameof(Omega),
-                OutputNamespace: nameof(FooNamespace)),
+                OutputNamespace: typeof(Alpha).Namespace
+                ),
             [
                 new BehaviorDescription(nameof(LogBehavior)), 
                 new BehaviorDescription(nameof(ExceptionBehavior))
             ]
         );
 
-        await VerifyAgainstBaselineUsingFile("Test.generated.cs", actual);
+        string path = Path.Combine("Text\\Snapshots", "DecoratedV1.generated.cs");
+
+        await VerifyAgainstBaselineUsingFile(path, actual);
     }
 
-    private async Task VerifyAgainstBaselineUsingFile(string filename, SourceText actual)
+    private async Task VerifyAgainstBaselineUsingFile(string path, SourceText actual)
     {
-        string content = await File.ReadAllTextAsync(Path.Combine("Baselines", filename));
+        string content = await File.ReadAllTextAsync(path);
 
         string baseline = LineEndingsHelper.Normalize(content);
         string[] expectedLines = baseline
