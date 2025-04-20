@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Demo.DecoratedHandlers.Gen;
+﻿namespace Demo.DecoratedHandlers.Abstractions;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class DecorateThisHandler : Attribute

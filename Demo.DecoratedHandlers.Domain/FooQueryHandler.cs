@@ -1,8 +1,7 @@
 ﻿using Demo.DecoratedHandlers.Abstractions;
-using Demo.DecoratedHandlers.Gen;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers;
+namespace Demo.DecoratedHandlers.Domain;
 
 [DecorateThisHandler]
 public class FooQueryHandler(ILogger<FooQueryHandler> logger) 

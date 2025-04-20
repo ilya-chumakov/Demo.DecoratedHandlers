@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Demo.DecoratedHandlers.Domain;
 using Demo.DecoratedHandlers.Gen;
 using FluentAssertions;
 using Xunit.Abstractions;

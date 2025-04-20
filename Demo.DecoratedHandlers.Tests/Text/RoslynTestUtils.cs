@@ -3,7 +3,7 @@
 
 using Microsoft.CodeAnalysis.Text;
 
-namespace SourceGenerators.Tests
+namespace Demo.DecoratedHandlers.Tests.Text
 {
     internal static class RoslynTestUtils
     {

@@ -1,7 +1,6 @@
 ﻿using Demo.DecoratedHandlers.Gen;
 using FooNamespace;
 using Microsoft.CodeAnalysis.Text;
-using SourceGenerators.Tests;
 using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.Tests.Text;

@@ -1,8 +1,7 @@
 ﻿using Demo.DecoratedHandlers.Abstractions;
-using Demo.DecoratedHandlers.Gen;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers;
+namespace Demo.DecoratedHandlers.Domain;
 
 [UseThisDecorator]
 public class FirstBehavior<TRequest, TResponse>(ILogger<FirstBehavior<TRequest, TResponse>> logger)

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Tests", "Demo.DecoratedHandlers.Tests\Demo.DecoratedHandlers.Tests.csproj", "{2DA1BAC5-7D5C-424B-94F9-EC2963CD2E3C}"
 EndProject
@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Gen"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.NoGeneration.Tests", "Demo.DecoratedHandlers.NoGeneration.Tests\Demo.DecoratedHandlers.NoGeneration.Tests.csproj", "{91B7BC34-0C0D-4A04-AC7A-3C9798C8DAD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers", "Demo.DecoratedHandlers\Demo.DecoratedHandlers.csproj", "{FA6D5EAE-F541-4769-8B66-12EC953D70FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Domain", "Demo.DecoratedHandlers.Domain\Demo.DecoratedHandlers.Domain.csproj", "{7FA2F0AD-908A-4109-9F63-08140F80F6AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Abstractions", "Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj", "{B164ACF6-DDCA-4281-9519-4E757B1127BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +31,19 @@ Global
 		{91B7BC34-0C0D-4A04-AC7A-3C9798C8DAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91B7BC34-0C0D-4A04-AC7A-3C9798C8DAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91B7BC34-0C0D-4A04-AC7A-3C9798C8DAD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA6D5EAE-F541-4769-8B66-12EC953D70FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA6D5EAE-F541-4769-8B66-12EC953D70FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA6D5EAE-F541-4769-8B66-12EC953D70FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA6D5EAE-F541-4769-8B66-12EC953D70FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA2F0AD-908A-4109-9F63-08140F80F6AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA2F0AD-908A-4109-9F63-08140F80F6AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA2F0AD-908A-4109-9F63-08140F80F6AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA2F0AD-908A-4109-9F63-08140F80F6AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4AD549F4-7AB4-49D2-B4B4-7051B8E575C1}
 	EndGlobalSection
 EndGlobal

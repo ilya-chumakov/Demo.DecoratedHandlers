@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Demo.DecoratedHandlers.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.DecoratedHandlers.Gen;

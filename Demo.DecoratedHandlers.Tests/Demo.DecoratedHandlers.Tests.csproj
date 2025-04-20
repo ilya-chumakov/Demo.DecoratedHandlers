@@ -35,7 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.DecoratedHandlers\Demo.DecoratedHandlers.csproj" />
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Domain\Demo.DecoratedHandlers.Domain.csproj" />
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj" />
   </ItemGroup>
 
   <ItemGroup>
