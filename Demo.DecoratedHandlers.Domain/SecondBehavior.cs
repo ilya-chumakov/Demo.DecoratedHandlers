@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Demo.DecoratedHandlers.Domain;
 
-[UseThisDecorator]
 public class SecondBehavior<TRequest, TResponse>(ILogger<SecondBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
 //where TRequest : IRequest<TResponse>

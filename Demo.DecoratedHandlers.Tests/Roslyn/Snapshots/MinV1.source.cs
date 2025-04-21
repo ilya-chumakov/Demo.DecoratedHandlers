@@ -11,9 +11,6 @@ namespace MyNamespace;
 public record Alpha;
 public record Omega;
 
-public interface IGenericHandler<TInput, TOutput> { }
-
-[Demo.DecoratedHandlers.Abstractions.DecorateThisHandler]
 public class Bar : IGenericHandler<Alpha, Omega> { 
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {

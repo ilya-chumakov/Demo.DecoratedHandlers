@@ -3,10 +3,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Demo.DecoratedHandlers.Domain;
 
-[UseThisDecorator]
 public class FirstBehavior<TRequest, TResponse>(ILogger<FirstBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
-//where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(
         TRequest request, 

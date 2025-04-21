@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using Demo.DecoratedHandlers.Abstractions;
 using Microsoft.CodeAnalysis;
@@ -23,63 +24,83 @@ public class PipelineGenerator : IIncrementalGenerator
 #endif
         var handlers = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (SyntaxNode node, CancellationToken ct) => node is ClassDeclarationSyntax cds,
-                transform: static (GeneratorSyntaxContext ctx, CancellationToken ct) =>
-                {
-                    var declaration = (ClassDeclarationSyntax)ctx.Node;
-                    var model = ctx.SemanticModel;
-                    var symbol = model.GetDeclaredSymbol(declaration);
-
-                    if (symbol is { IsGenericType: false } &&
-                        symbol.Interfaces.Any(i => i.Name == "IGenericHandler") &&
-                        symbol.GetAttributes()
-                            .Any(attr => attr.AttributeClass?.Name == nameof(DecorateThisHandler)))
-                    {
-                        var @interface = symbol.Interfaces.First();
-                        return new HandlerDescription(
-                            symbol.Name,
-                            @interface.TypeArguments[0].Name!,
-                            @interface.TypeArguments[1].Name!,
-                            symbol.ContainingNamespace.ToDisplayString()
-                        );
-                    }
-                    return default;
-                })
+                predicate: static (SyntaxNode node, CancellationToken _) => node is ClassDeclarationSyntax,
+                transform: TransformHandlers())
             .Where(static symbol => symbol != default)
             .Collect();
 
-        var decorators = context.SyntaxProvider
+        var behaviors = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (SyntaxNode node, CancellationToken ct) => node is ClassDeclarationSyntax cds,
-                transform: static (GeneratorSyntaxContext ctx, CancellationToken ct) =>
-                {
-                    var declaration = (ClassDeclarationSyntax)ctx.Node;
-                    var model = ctx.SemanticModel;
-                    var symbol = model.GetDeclaredSymbol(declaration);
-
-                    if (symbol is { IsGenericType: false } &&
-                        symbol.GetAttributes().Any(attr => attr.AttributeClass?.Name == nameof(UseThisDecorator)))
-                    {
-                        return new BehaviorDescription(symbol.Name);
-                    }
-                    return default;
-                })
+                predicate: static (SyntaxNode node, CancellationToken _) => node is ClassDeclarationSyntax,
+                transform: TransformBehaviors())
             .Where(static symbol => symbol != default)
             .Collect();
 
-        var combination = handlers.Combine(decorators);
+        var combination = handlers.Combine(behaviors);
 
         //todo RegisterImplementationSourceOutput?
         context.RegisterSourceOutput(combination, static (ctx, symbols) =>
         {
-            var (handlers, decorators) = symbols;
+            var (handlers, behaviors) = symbols;
 
             foreach (var handler in handlers)
             {
                 string filename = $"{handler.HandlerTypeName}_Pipeline.g.cs";
-                SourceText sourceText = TextEmitter.CreatePipelineSource(handler, decorators);
+                SourceText sourceText = TextEmitter.CreatePipelineSource(handler, behaviors);
                 ctx.AddSource(filename, sourceText);
             }
         });
+    }
+
+    private static Func<GeneratorSyntaxContext, CancellationToken, BehaviorDescription> TransformBehaviors()
+    {
+        return static (GeneratorSyntaxContext ctx, CancellationToken _) =>
+        {
+            if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
+                return default;
+
+            var symbol = ctx.SemanticModel.GetDeclaredSymbol(syntax);
+
+            if (symbol is not { IsGenericType: false, IsAnonymousType: false } ||
+                symbol.AllInterfaces is not { Length: > 0 })
+                return default;
+
+            var face = symbol.AllInterfaces.FirstOrDefault(i => 
+                i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
+                i.Name == AbstractionsMetadata.BehaviorInterfaceSymbolName);
+
+            if (face is null) return default;
+
+            return new BehaviorDescription(symbol.Name);
+        };
+    }
+
+    private static Func<GeneratorSyntaxContext, CancellationToken, HandlerDescription> TransformHandlers()
+    {
+        return static (GeneratorSyntaxContext ctx, CancellationToken _) =>
+        {
+            if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
+                return default;
+
+            var symbol = ctx.SemanticModel.GetDeclaredSymbol(syntax);
+
+            if (symbol is not { IsGenericType: false, IsAnonymousType: false } ||
+                symbol.AllInterfaces is not { Length: > 0 })
+                return default;
+
+            var face = symbol.AllInterfaces.FirstOrDefault(i => 
+                i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
+                i.Name == AbstractionsMetadata.RequestInterfaceSymbolName);
+
+            if (face is null) return default;
+
+            return new HandlerDescription(
+                symbol.Name,
+                face.TypeArguments[0].Name!,
+                face.TypeArguments[1].Name!,
+                // todo do we really need to call ToDisplayString?
+                symbol.ContainingNamespace.ToDisplayString()
+            );
+        };
     }
 }

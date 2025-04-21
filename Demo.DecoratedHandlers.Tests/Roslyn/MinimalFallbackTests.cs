@@ -1,4 +1,5 @@
 ﻿using System.Runtime;
+using Demo.DecoratedHandlers.Abstractions;
 using Demo.DecoratedHandlers.Gen;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -16,10 +17,12 @@ public class MinimalFallbackTests(ITestOutputHelper output)
     {
         var generator = new PipelineGenerator();
         var compilation = CSharpCompilation.Create("TestAssembly",
-            [CSharpSyntaxTree.ParseText(source)],
+            syntaxTrees: [CSharpSyntaxTree.ParseText(source)],
+            references:
             [
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(AssemblyTargetedPatchBandAttribute).Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(AssemblyTargetedPatchBandAttribute).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(IGenericHandler<,>).Assembly.Location)
             ],
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
         );
@@ -31,14 +34,13 @@ public class MinimalFallbackTests(ITestOutputHelper output)
     public void GeneratesMarkerForClassImplementingTargetInterface()
     {
         const string source = @"
+using Demo.DecoratedHandlers.Abstractions;
+
 namespace MyNamespace;
 
 public record Alpha;
 public record Omega;
 
-public interface IGenericHandler<TInput, TOutput> { }
-
-[Demo.DecoratedHandlers.Abstractions.DecorateThisHandler]
 public class Bar : IGenericHandler<Alpha, Omega> { }
 ";
 
@@ -67,8 +69,7 @@ public record Omega;
 
 public interface IGenericHandler<TInput, TOutput> { }
 
-//[Demo.DecoratedHandlers.Abstractions.DecorateThisHandler]
-public class Bar : IGenericHandler<Alpha, Omega> { }
+public class Bar : MyNamespace.IGenericHandler<Alpha, Omega> { }
 ";
         var driver = CreateDriver(source);
         var runResult = driver.GetRunResult();
