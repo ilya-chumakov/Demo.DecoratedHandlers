@@ -10,7 +10,7 @@ namespace Demo.DecoratedHandlers.Tests.Text.Snapshots;
 public record Alpha;
 public record Omega;
 
-public class FooHandler : IGenericHandler<Alpha, Omega>
+public class FooHandler : IRequestHandler<Alpha, Omega>
 {
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {

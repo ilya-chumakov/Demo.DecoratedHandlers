@@ -11,7 +11,7 @@ namespace MyNamespace;
 public record Alpha;
 public record Omega;
 
-public class Bar : IGenericHandler<Alpha, Omega> { 
+public class Bar : IRequestHandler<Alpha, Omega> { 
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {
         return Task.FromResult(new Omega());

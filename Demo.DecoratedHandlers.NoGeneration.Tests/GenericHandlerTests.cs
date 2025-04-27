@@ -15,7 +15,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
         {
             cfg.AddXunit(output);
         });
-        services.AddTransient<IGenericHandler<BarQuery, BarResponse>, BarQueryHandler>();
+        services.AddTransient<IRequestHandler<BarQuery, BarResponse>, BarQueryHandler>();
         services.AddTransient(typeof(FirstBehavior<,>));
         services.AddTransient(typeof(SecondBehavior<,>));
 
@@ -24,7 +24,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
         services.ReplaceHandlerWithPipeline();
         var provider = services.BuildServiceProvider();
 
-        var actual = provider.GetRequiredService<IGenericHandler<BarQuery, BarResponse>>();
+        var actual = provider.GetRequiredService<IRequestHandler<BarQuery, BarResponse>>();
 
         await actual.HandleAsync(new BarQuery());
 

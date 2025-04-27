@@ -12,7 +12,7 @@ namespace Demo.DecoratedHandlers.Tests.Text.Snapshots
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Demo.DecoratedHandlers.Gen", "1.0.0.0")]
     [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Always)]
     
-    public class FooHandlerPipeline(IServiceProvider provider) : IGenericHandler<Alpha, Omega>
+    public class FooHandlerPipeline(IServiceProvider provider) : IRequestHandler<Alpha, Omega>
     { 
         public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default) 
         {
@@ -32,8 +32,8 @@ namespace Demo.DecoratedHandlers.Tests.Text.Snapshots
         [RegisterThis]
         internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
         {
-            services.RemoveAll<IGenericHandler<Alpha, Omega>>();
-            services.AddTransient<IGenericHandler<Alpha, Omega>, FooHandlerPipeline>();
+            services.RemoveAll<IRequestHandler<Alpha, Omega>>();
+            services.AddTransient<IRequestHandler<Alpha, Omega>, FooHandlerPipeline>();
             services.AddTransient<FooHandler>();
         }
     }

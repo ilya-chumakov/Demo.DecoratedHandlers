@@ -19,7 +19,7 @@ public static partial class CSharpSourceGeneratorVerifier<TSourceGenerator>
             
             var refs = new[]
             {
-                typeof(IGenericHandler<,>).Assembly,
+                typeof(IRequestHandler<,>).Assembly,
                 typeof(PipelineGenerator).Assembly,
                 typeof(Microsoft.Extensions.DependencyInjection.Extensions.ServiceCollectionDescriptorExtensions).Assembly,
             };

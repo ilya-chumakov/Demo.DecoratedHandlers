@@ -3,7 +3,7 @@
 namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
 public class BarQueryHandler(ILogger<BarQueryHandler> logger) 
-    : IGenericHandler<BarQuery, BarResponse>
+    : IRequestHandler<BarQuery, BarResponse>
 {
     public Task<BarResponse> HandleAsync(BarQuery input, CancellationToken ct = default)
     {

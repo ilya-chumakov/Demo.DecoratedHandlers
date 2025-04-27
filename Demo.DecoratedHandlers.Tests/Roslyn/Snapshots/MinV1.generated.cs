@@ -12,7 +12,7 @@ namespace MyNamespace
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Demo.DecoratedHandlers.Gen", "1.0.0.0")]
     [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Always)]
     
-    public class BarPipeline(IServiceProvider provider) : IGenericHandler<Alpha, Omega>
+    public class BarPipeline(IServiceProvider provider) : IRequestHandler<Alpha, Omega>
     { 
         public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default) 
         {
@@ -28,8 +28,8 @@ namespace MyNamespace
         [RegisterThis]
         internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
         {
-            services.RemoveAll<IGenericHandler<Alpha, Omega>>();
-            services.AddTransient<IGenericHandler<Alpha, Omega>, BarPipeline>();
+            services.RemoveAll<IRequestHandler<Alpha, Omega>>();
+            services.AddTransient<IRequestHandler<Alpha, Omega>, BarPipeline>();
             services.AddTransient<Bar>();
         }
     }

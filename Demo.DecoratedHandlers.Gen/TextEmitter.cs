@@ -48,7 +48,7 @@ public static class TextEmitter
                   [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{EmitterAssemblyName.Name}}", "{{EmitterAssemblyName.Version}}")]
                   [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Always)]
                   
-                  public class {{pipelineType}}(IServiceProvider provider) : IGenericHandler<{{typePair}}>
+                  public class {{pipelineType}}(IServiceProvider provider) : IRequestHandler<{{typePair}}>
                   { 
                       public Task<{{outputType}}> HandleAsync({{inputType}} input, CancellationToken ct = default) 
                       {
@@ -83,8 +83,8 @@ public static class TextEmitter
                       [RegisterThis]
                       internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
                       {
-                          services.RemoveAll<IGenericHandler<{{typePair}}>>();
-                          services.AddTransient<IGenericHandler<{{typePair}}>, {{pipelineType}}>();
+                          services.RemoveAll<IRequestHandler<{{typePair}}>>();
+                          services.AddTransient<IRequestHandler<{{typePair}}>, {{pipelineType}}>();
                           services.AddTransient<{{handlerType}}>();
                       }
                   }

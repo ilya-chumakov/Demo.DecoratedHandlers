@@ -24,7 +24,7 @@ public class GenericHandlerTests(ITestOutputHelper output)
     //[Fact]
     //public void Wrapper_AvailableInCompileTime_OK()
     //{
-    //    IGenericHandler<FooQuery> x = new FooCommandHandlerPipeline(null);
+    //    IRequestHandler<FooQuery> x = new FooCommandHandlerPipeline(null);
     //}
 
     [Fact(Skip = "todo")]

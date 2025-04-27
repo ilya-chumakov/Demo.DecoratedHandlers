@@ -22,7 +22,7 @@ public class MinimalFallbackTests(ITestOutputHelper output)
             [
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(AssemblyTargetedPatchBandAttribute).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(IGenericHandler<,>).Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(IRequestHandler<,>).Assembly.Location)
             ],
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
         );
@@ -41,7 +41,7 @@ namespace MyNamespace;
 public record Alpha;
 public record Omega;
 
-public class Bar : IGenericHandler<Alpha, Omega> { }
+public class Bar : IRequestHandler<Alpha, Omega> { }
 ";
 
         var driver = CreateDriver(source);
@@ -54,7 +54,7 @@ public class Bar : IGenericHandler<Alpha, Omega> { }
 
         string actual = generated[0].SourceText.ToString();
         output.WriteLine(actual);
-        Assert.Contains("BarPipeline(IServiceProvider provider) : IGenericHandler<Alpha, Omega>", actual);
+        Assert.Contains("BarPipeline(IServiceProvider provider) : IRequestHandler<Alpha, Omega>", actual);
     }
 
     [Fact]
@@ -67,9 +67,9 @@ namespace MyNamespace;
 public record Alpha;
 public record Omega;
 
-public interface IGenericHandler<TInput, TOutput> { }
+public interface IRequestHandler<TInput, TOutput> { }
 
-public class Bar : MyNamespace.IGenericHandler<Alpha, Omega> { }
+public class Bar : MyNamespace.IRequestHandler<Alpha, Omega> { }
 ";
         var driver = CreateDriver(source);
         var runResult = driver.GetRunResult();

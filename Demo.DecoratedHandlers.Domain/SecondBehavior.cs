@@ -5,7 +5,6 @@ namespace Demo.DecoratedHandlers.Domain;
 
 public class SecondBehavior<TRequest, TResponse>(ILogger<SecondBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
-//where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(
         TRequest request, 
