@@ -11,7 +11,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Demo.DecoratedHandlers.Gen;
 
-//[Generator]
+[Generator]
 public class PipelineGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
