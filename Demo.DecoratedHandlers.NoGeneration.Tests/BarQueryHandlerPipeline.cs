@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
-public class GenericPipeline(IServiceProvider provider) : IRequestHandler<BarQuery, BarResponse>
+public class BarQueryHandlerPipeline(IServiceProvider provider) : IRequestHandler<BarQuery, BarResponse>
 {
     public Task<BarResponse> HandleAsync(BarQuery command, CancellationToken ct = default)
     {
@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
     public static void ReplaceHandlerWithPipeline(this IServiceCollection services)
     {
         services.RemoveAll<IRequestHandler<BarQuery, BarResponse>>();
-        services.AddTransient<IRequestHandler<BarQuery, BarResponse>, GenericPipeline>();
+        services.AddTransient<IRequestHandler<BarQuery, BarResponse>, BarQueryHandlerPipeline>();
         services.AddTransient<BarQueryHandler>();
     }
 }

@@ -28,9 +28,7 @@ namespace MyNamespace
         [RegisterThis]
         internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
         {
-            services.RemoveAll<IRequestHandler<Alpha, Omega>>();
-            services.AddTransient<IRequestHandler<Alpha, Omega>, BarPipeline>();
-            services.AddTransient<Bar>();
+            services.ReplaceWithPipeline<IRequestHandler<Alpha, Omega>, Bar, BarPipeline>();
         }
     }
 }

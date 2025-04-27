@@ -32,9 +32,7 @@ namespace Demo.DecoratedHandlers.Tests.Text.Snapshots
         [RegisterThis]
         internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
         {
-            services.RemoveAll<IRequestHandler<Alpha, Omega>>();
-            services.AddTransient<IRequestHandler<Alpha, Omega>, FooHandlerPipeline>();
-            services.AddTransient<FooHandler>();
+            services.ReplaceWithPipeline<IRequestHandler<Alpha, Omega>, FooHandler, FooHandlerPipeline>();
         }
     }
 }

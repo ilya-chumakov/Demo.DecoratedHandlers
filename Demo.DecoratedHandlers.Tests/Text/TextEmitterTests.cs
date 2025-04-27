@@ -10,7 +10,7 @@ public class TextEmitterTests(ITestOutputHelper output)
     [Fact]
     public async Task Test_Baseline()
     {
-        SourceText actual = TextEmitter.CreatePipelineSource(
+        SourceText actual = TextEmitter.CreatePipelineText(
             new HandlerDescription(
                 HandlerTypeName: nameof(FooHandler),
                 InputTypeName: nameof(Alpha),

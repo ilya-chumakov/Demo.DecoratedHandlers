@@ -17,7 +17,7 @@ public static class TextEmitter
 {
     private static readonly AssemblyName EmitterAssemblyName = typeof(TextEmitter).Assembly.GetName();
 
-    public static SourceText CreatePipelineSource(
+    public static SourceText CreatePipelineText(
         HandlerDescription handler,
         IReadOnlyList<BehaviorDescription> behaviors)
     {
@@ -83,9 +83,7 @@ public static class TextEmitter
                       [RegisterThis]
                       internal static void ReplaceHandlerWithPipeline(this IServiceCollection services)
                       {
-                          services.RemoveAll<IRequestHandler<{{typePair}}>>();
-                          services.AddTransient<IRequestHandler<{{typePair}}>, {{pipelineType}}>();
-                          services.AddTransient<{{handlerType}}>();
+                          services.ReplaceWithPipeline<IRequestHandler<{{typePair}}>, {{handlerType}}, {{pipelineType}}>();
                       }
                   }
               }

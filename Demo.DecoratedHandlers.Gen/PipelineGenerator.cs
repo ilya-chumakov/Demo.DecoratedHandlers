@@ -46,7 +46,7 @@ public class PipelineGenerator : IIncrementalGenerator
             foreach (var handler in handlers)
             {
                 string filename = $"{handler.HandlerTypeName}_Pipeline.g.cs";
-                SourceText sourceText = TextEmitter.CreatePipelineSource(handler, behaviors);
+                SourceText sourceText = TextEmitter.CreatePipelineText(handler, behaviors);
                 ctx.AddSource(filename, sourceText);
             }
         });

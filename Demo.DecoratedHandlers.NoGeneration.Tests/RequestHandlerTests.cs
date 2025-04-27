@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
-public class GenericHandlerTests(ITestOutputHelper output)
+public class RequestHandlerTests(ITestOutputHelper output)
 {
     [Fact]
     public async Task ConcreteHandler_WrapperIsCoded_HandlerIsReplaced()
@@ -28,6 +28,6 @@ public class GenericHandlerTests(ITestOutputHelper output)
 
         await actual.HandleAsync(new BarQuery());
 
-        actual.GetType().Should().Be(typeof(GenericPipeline));
+        actual.GetType().Should().Be(typeof(BarQueryHandlerPipeline));
     }
 }
