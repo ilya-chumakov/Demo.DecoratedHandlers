@@ -1,10 +1,10 @@
 ﻿using Demo.DecoratedHandlers.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers.Domain;
+namespace Demo.DecoratedHandlers.FooDomain;
 
-public class SecondBehavior<TRequest, TResponse>(ILogger<SecondBehavior<TRequest, TResponse>> logger)
-    : IPipelineBehavior<TRequest, TResponse>
+public class FooFirstBehavior<TRequest, TResponse>(ILogger<FooFirstBehavior<TRequest, TResponse>> logger)
+    : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     public async Task<TResponse> Handle(
         TRequest request, 
