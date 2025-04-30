@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+    <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,14 +16,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Demo.DecoratedHandlers.BarDomain\Demo.DecoratedHandlers.BarDomain.csproj" />
     <ProjectReference Include="..\Demo.DecoratedHandlers.FooDomain\Demo.DecoratedHandlers.FooDomain.csproj" />
-    <ProjectReference 
-      Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj" 
-      OutputItemType="Analyzer" 
-      ReferenceOutputAssembly="true" />
 
-
-    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+    <!--<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />-->
   </ItemGroup>
+
+  <!--<ItemGroup>
+    <Folder Include="Generated\" />
+  </ItemGroup>-->
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>DEBUG;TRACE;LAUNCH_DEBUGGER</DefineConstants>

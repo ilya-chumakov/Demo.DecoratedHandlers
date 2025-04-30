@@ -11,7 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj" />
+    <!--<ProjectReference Include="..\Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj" />-->
+    <ProjectReference 
+      Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="true" />
+
   </ItemGroup>
 
 </Project>

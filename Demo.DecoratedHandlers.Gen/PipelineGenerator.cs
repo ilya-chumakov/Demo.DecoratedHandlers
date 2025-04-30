@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using Demo.DecoratedHandlers.Abstractions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -43,6 +42,8 @@ public class PipelineGenerator : IIncrementalGenerator
         {
             var (handlers, behaviors) = symbols;
 
+            ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
+                
             foreach (var handler in handlers)
             {
                 string filename = $"{handler.HandlerTypeName}_Pipeline.g.cs";
