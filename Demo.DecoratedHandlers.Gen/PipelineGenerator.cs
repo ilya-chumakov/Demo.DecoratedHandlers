@@ -42,7 +42,8 @@ public class PipelineGenerator : IIncrementalGenerator
         {
             var (handlers, behaviors) = symbols;
 
-            ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
+            //todo it's useful, make conditional? how?
+            //ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
                 
             foreach (var handler in handlers)
             {

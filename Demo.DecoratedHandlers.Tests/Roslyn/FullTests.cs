@@ -11,8 +11,11 @@ public class FullTests(ITestOutputHelper output)
     [Fact]
     public async Task DraftWithMsPackage()
     {
-        string code = await File.ReadAllTextAsync(Path.Combine("Roslyn\\Snapshots", "MinV1.source.cs"));
-        string generated = await File.ReadAllTextAsync(Path.Combine("Roslyn\\Snapshots", "MinV1.generated.cs"));
+        string sourceCode = await File.ReadAllTextAsync(Path.Combine("Roslyn\\Snapshots", "MinV1.source.cs"));
+        string expected = await File.ReadAllTextAsync(Path.Combine("Roslyn\\Snapshots", "MinV1.generated.cs"));
+
+        expected = expected
+            .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString());
 
         await new VerifyCS.Test
         {
@@ -20,14 +23,14 @@ public class FullTests(ITestOutputHelper output)
             {
                 Sources =
                 {
-                    (filename: "Bar.source.cs", content: code)
+                    (filename: "SomeUnusedName.cs", content: sourceCode)
                 },
                 GeneratedSources =
                 {
                     (
                         sourceGeneratorType: typeof(PipelineGenerator),
                         filename: "Bar_Pipeline.g.cs",
-                        content: SourceText.From(generated, Encoding.UTF8)
+                        content: SourceText.From(expected, Encoding.UTF8)
                     )
                 }
             }
