@@ -20,12 +20,12 @@ public static class RegistrationExtensions
 
         services.RemoveAll(typeof(TClosedInterface));
 
-        services.Add(new ServiceDescriptor(
+        services.TryAdd(new ServiceDescriptor(
             typeof(TClosedInterface),
             typeof(TPipeline),
             lifetime));
 
-        services.Add(new ServiceDescriptor(
+        services.TryAdd(new ServiceDescriptor(
             typeof(THandler),
             typeof(THandler),
             lifetime));

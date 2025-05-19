@@ -1,5 +1,6 @@
 using Demo.DecoratedHandlers.Abstractions;
 using Demo.DecoratedHandlers.FooDomain;
+using Demo.DecoratedHandlers.Gen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ services.AddControllers();
 services.AddOpenApi();
 
 services.AddTransient<IRequestHandler<FooQuery, FooResponse>, FooQueryHandler>();
+services.AddPipelines();
 
 var app = builder.Build();
 

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Demo.DecoratedHandlers.Tests.Abstractions;
 
-public class RegistratorTests
+public class PipelineRegistration_Single_Tests
 {
     // ReSharper disable once InconsistentNaming
     private readonly ServiceCollection services = new();
@@ -20,6 +20,60 @@ public class RegistratorTests
         services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, FooHandler, FooHandlerPipeline>();
 
         //Assert
+        AssertCorrectFooHandlerPipeline();
+    }
+
+    [Fact]
+    public void ReplaceWithPipeline_DuplicatedHandlerRegistration_OK()
+    {
+        //Arrange
+        services.AddTransient<IRequestHandler<FooInput, FooOutput>, FooHandler>();
+        services.AddTransient<IRequestHandler<FooInput, FooOutput>, FooHandler>();
+
+        //Act
+        services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, FooHandler, FooHandlerPipeline>();
+
+        //Assert
+        AssertCorrectFooHandlerPipeline();
+    }
+
+    /// <summary>
+    /// Never should happen, defensive case
+    /// </summary>
+    [Fact]
+    public void ReplaceWithPipeline_DuplicatedPipelineRegistration_OK()
+    {
+        //Arrange
+        services.AddTransient<IRequestHandler<FooInput, FooOutput>, FooHandler>();
+
+        //Act
+        services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, FooHandler, FooHandlerPipeline>();
+        services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, FooHandler, FooHandlerPipeline>();
+
+        //Assert
+        AssertCorrectFooHandlerPipeline();
+    }
+    
+    [Fact]
+    public void ReplaceWithPipeline_AnotherHandlerSameInterface_OK()
+    {
+        //Arrange
+        services.AddTransient<IRequestHandler<FooInput, FooOutput>, FooHandler>();
+        services.AddTransient<IRequestHandler<FooInput, FooOutput>, AnotherHandler>();
+
+        //Act
+        services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, FooHandler, FooHandlerPipeline>();
+
+        //Assert
+        AssertCorrectFooHandlerPipeline();
+        
+        // Second handler with the same interface is excluded from registration
+        For<IRequestHandler<FooInput, FooOutput>, AnotherHandler>().Should().BeEmpty();
+        For<AnotherHandler, AnotherHandler>().Should().BeEmpty();
+    }
+
+    private void AssertCorrectFooHandlerPipeline()
+    {
         For<IRequestHandler<FooInput, FooOutput>, FooHandler>().Should().BeEmpty();
         For<FooHandler, FooHandler>().Should().ContainSingle();
         
@@ -85,4 +139,13 @@ public class RegistratorTests
     {
         public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default) => Task.FromResult(new FooOutput("fooName"));
     }
+
+    /// <summary>
+    /// A class implementing the same closed generic handler interface, should be ignored
+    /// </summary>
+    private class AnotherHandler : IRequestHandler<FooInput, FooOutput>
+    {
+        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default) => Task.FromResult(new FooOutput("fooName"));
+    }
+
 }
