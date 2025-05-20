@@ -32,8 +32,7 @@ public class TextEmitterTests(ITestOutputHelper output)
     {
         string content = await File.ReadAllTextAsync(path);
 
-        string baseline = LineEndingsHelper.Normalize(content);
-        string[] expectedLines = baseline
+        string[] expectedLines = LineEndingsHelper.Normalize(content)
             .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString())
             .Split(Environment.NewLine);
 

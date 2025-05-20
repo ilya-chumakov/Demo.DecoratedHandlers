@@ -1,29 +1,33 @@
 ﻿using System.Text;
 using Demo.DecoratedHandlers.Gen;
+using Demo.DecoratedHandlers.Tests.Text;
 using Microsoft.CodeAnalysis.Text;
 using Xunit.Abstractions;
-using VerifyCS = Demo.DecoratedHandlers.Tests.Roslyn.CSharpSourceGeneratorVerifier<Demo.DecoratedHandlers.Gen.PipelineGenerator>;
 
 namespace Demo.DecoratedHandlers.Tests.Roslyn;
 
 public class FullTests(ITestOutputHelper output)
 {
-    [Fact]
-    public async Task DraftWithMsPackage()
+    private static readonly string GeneratorAssemblyVersion = 
+        typeof(TextEmitter).Assembly.GetName().Version?.ToString();
+
+    [Theory]
+    [InlineData("MinV1")]
+    public async Task GeneratorOutput_Snapshot_OK(string snapshotName)
     {
-        string sourceCode = await File.ReadAllTextAsync(Path.Combine("Roslyn\\Snapshots", "MinV1.source.cs"));
-        string expected = await File.ReadAllTextAsync(Path.Combine("Roslyn\\Snapshots", "MinV1.generated.cs"));
+        string source = await ReadSnapshotAsync(snapshotName, "Source.cs");
+        string generated = await ReadSnapshotAsync(snapshotName, "Generated.cs");
 
-        expected = expected
-            .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString());
+        string expected = LineEndingsHelper.Normalize(generated)
+            .Replace("%VERSION%", GeneratorAssemblyVersion);
 
-        await new VerifyCS.Test
+        await new Verifier.Test
         {
             TestState =
             {
                 Sources =
                 {
-                    (filename: "SomeUnusedName.cs", content: sourceCode)
+                    (filename: "SomeUnusedName.cs", content: source)
                 },
                 GeneratedSources =
                 {
@@ -35,5 +39,12 @@ public class FullTests(ITestOutputHelper output)
                 }
             }
         }.RunAsync();
+    }
+
+    private static async Task<string> ReadSnapshotAsync(string snapshot, string file)
+    {
+        string path = Path.Combine("Roslyn\\Snapshots\\" + snapshot, file);
+
+        return await File.ReadAllTextAsync(path);
     }
 }

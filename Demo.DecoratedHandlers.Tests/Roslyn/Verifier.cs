@@ -4,24 +4,23 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using static Microsoft.CodeAnalysis.Testing.ReferenceAssemblies;
 
 namespace Demo.DecoratedHandlers.Tests.Roslyn;
 
-public static partial class CSharpSourceGeneratorVerifier<TSourceGenerator>
-    where TSourceGenerator : IIncrementalGenerator, new()
+public static class Verifier
 {
-    public class Test : CSharpSourceGeneratorTest<TSourceGenerator, DefaultVerifier>
+    public class Test : CSharpSourceGeneratorTest<PipelineGenerator, DefaultVerifier>
     {
         public Test()
         {
-            ReferenceAssemblies = Net.Net90;
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net90;
             
             var refs = new[]
             {
                 typeof(IRequestHandler<,>).Assembly,
                 typeof(PipelineGenerator).Assembly,
-                typeof(Microsoft.Extensions.DependencyInjection.Extensions.ServiceCollectionDescriptorExtensions).Assembly,
+                typeof(Microsoft.Extensions.DependencyInjection.Extensions
+                    .ServiceCollectionDescriptorExtensions).Assembly,
             };
             foreach (var asm in refs)
             {
