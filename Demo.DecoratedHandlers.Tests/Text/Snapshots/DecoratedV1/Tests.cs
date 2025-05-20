@@ -1,11 +1,10 @@
 ﻿using Demo.DecoratedHandlers.Gen;
-using Demo.DecoratedHandlers.Tests.Text.Snapshots;
 using Microsoft.CodeAnalysis.Text;
 using Xunit.Abstractions;
 
-namespace Demo.DecoratedHandlers.Tests.Text;
+namespace Demo.DecoratedHandlers.Tests.Text.Snapshots.DecoratedV1;
 
-public class TextEmitterTests(ITestOutputHelper output)
+public class Tests(ITestOutputHelper output)
 {
     [Fact]
     public async Task Test_Baseline()
@@ -23,7 +22,7 @@ public class TextEmitterTests(ITestOutputHelper output)
             ]
         );
 
-        string path = Path.Combine("Text\\Snapshots", "DecoratedV1.generated.cs");
+        string path = Path.Combine("Text\\Snapshots\\DecoratedV1", "Generated.cs");
 
         await VerifyAgainstBaselineUsingFile(path, actual);
     }
