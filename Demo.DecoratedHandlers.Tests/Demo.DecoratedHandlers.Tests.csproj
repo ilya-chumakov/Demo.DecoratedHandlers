@@ -9,18 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Roslyn\V2.source.cs" />
-    <Compile Remove="Roslyn\V2.generated.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Text\Snapshots\DecoratedV1\Generated.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Roslyn\Snapshots\MinV1\Source.cs">
+    <Content Include="Roslyn\Snapshots\NoBehaviors\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Roslyn\Snapshots\MinV1\Generated.cs">
+    <Content Include="Roslyn\Snapshots\NoBehaviors\Generated.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Roslyn\Snapshots\TwoBehaviors\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Roslyn\Snapshots\TwoBehaviors\Generated.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

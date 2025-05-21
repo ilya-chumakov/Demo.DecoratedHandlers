@@ -12,7 +12,8 @@ public class FullTests(ITestOutputHelper output)
         typeof(TextEmitter).Assembly.GetName().Version?.ToString();
 
     [Theory]
-    [InlineData("MinV1")]
+    [InlineData("NoBehaviors")]
+    [InlineData("TwoBehaviors")]
     public async Task GeneratorOutput_Snapshot_OK(string snapshotName)
     {
         string source = await ReadSnapshotAsync(snapshotName, "Source.cs");
@@ -33,7 +34,7 @@ public class FullTests(ITestOutputHelper output)
                 {
                     (
                         sourceGeneratorType: typeof(PipelineGenerator),
-                        filename: "Bar_Pipeline.g.cs",
+                        filename: "BarHandler_Pipeline.g.cs",
                         content: SourceText.From(expected, Encoding.UTF8)
                     )
                 }

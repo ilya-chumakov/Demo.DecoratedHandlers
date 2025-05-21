@@ -1,15 +1,17 @@
-/*
- * This code does not participate in source generation.
- * It provides types necessary for the static snapshot of generated code to compile.
- */
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Demo.DecoratedHandlers.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Demo.DecoratedHandlers.Gen;
 
-namespace Demo.DecoratedHandlers.Tests.Text.Snapshots.DecoratedV1;
+namespace Demo.DecoratedHandlers.Tests.Roslyn.Snapshots.TwoBehaviors;
 
 public record Alpha;
 public record Omega;
 
-public class FooHandler : IRequestHandler<Alpha, Omega>
+public class BarHandler : IRequestHandler<Alpha, Omega>
 {
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {
