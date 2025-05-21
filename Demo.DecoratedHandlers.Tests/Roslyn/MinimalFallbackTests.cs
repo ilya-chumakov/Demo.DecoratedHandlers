@@ -42,6 +42,14 @@ public record Alpha;
 public record Omega;
 
 public class Bar : IRequestHandler<Alpha, Omega> { }
+
+public class LogBehavior : IPipelineBehavior<Alpha, Omega>
+{
+    public Task<Omega> Handle(Alpha request, RequestHandlerDelegate<Omega> next, CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
+    }
+}
 ";
 
         var driver = CreateDriver(source);

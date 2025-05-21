@@ -42,6 +42,9 @@ public class PipelineGenerator : IIncrementalGenerator
         {
             var (handlers, behaviors) = symbols;
 
+            // nothing to do now if no behaviors
+            if (behaviors.Length == 0) return;
+
             //todo it's useful, make conditional? how?
             //ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
                 

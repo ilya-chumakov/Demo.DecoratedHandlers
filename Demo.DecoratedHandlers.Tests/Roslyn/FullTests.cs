@@ -12,9 +12,8 @@ public class FullTests(ITestOutputHelper output)
         typeof(TextEmitter).Assembly.GetName().Version?.ToString();
 
     [Theory]
-    [InlineData("NoBehaviors")]
     [InlineData("TwoBehaviors")]
-    public async Task GeneratorOutput_Snapshot_OK(string snapshotName)
+    public async Task GeneratorOutput_Default_OK(string snapshotName)
     {
         string source = await ReadSnapshotAsync(snapshotName, "Source.cs");
         string generated = await ReadSnapshotAsync(snapshotName, "Generated.cs");
@@ -37,6 +36,24 @@ public class FullTests(ITestOutputHelper output)
                         filename: "BarHandler_Pipeline.g.cs",
                         content: SourceText.From(expected, Encoding.UTF8)
                     )
+                }
+            }
+        }.RunAsync();
+    }
+
+    [Theory]
+    [InlineData("NoBehaviors")]
+    public async Task GeneratorOutput_ValidCaseOfNoGeneration_OK(string snapshotName)
+    {
+        string source = await ReadSnapshotAsync(snapshotName, "Source.cs");
+
+        await new Verifier.Test
+        {
+            TestState =
+            {
+                Sources =
+                {
+                    (filename: "SomeUnusedName.cs", content: source)
                 }
             }
         }.RunAsync();
