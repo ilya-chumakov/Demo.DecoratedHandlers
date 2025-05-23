@@ -13,6 +13,8 @@ public class FullTests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("TwoBehaviors")]
+    [InlineData("OneBehavior")]
+    //[InlineData("CompositeHandler")] //not supported now
     public async Task GeneratorOutput_Default_OK(string snapshotName)
     {
         string source = await ReadSnapshotAsync(snapshotName, "Source.cs");

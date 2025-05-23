@@ -50,4 +50,11 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Roslyn\Snapshots\CompositeHandler\Generated.cs" />
+    <Compile Remove="Roslyn\Snapshots\CompositeHandler\Source.cs" />
+    <Compile Remove="Roslyn\Snapshots\OneBehavior\Generated.cs" />
+    <Compile Remove="Roslyn\Snapshots\OneBehavior\Source.cs" />
+  </ItemGroup>
+
 </Project>
