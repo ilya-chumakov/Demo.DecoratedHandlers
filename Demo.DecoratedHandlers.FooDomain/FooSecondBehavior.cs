@@ -18,3 +18,14 @@ public class FooSecondBehavior<TRequest, TResponse>(ILogger<FooSecondBehavior<TR
         return response;
     }
 }
+
+public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+{
+    public Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
+    }
+}

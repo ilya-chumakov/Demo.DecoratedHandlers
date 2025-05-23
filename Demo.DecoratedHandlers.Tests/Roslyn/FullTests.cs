@@ -20,6 +20,8 @@ public class FullTests(ITestOutputHelper output)
         string source = await ReadSnapshotAsync(snapshotName, "Source.cs");
         string generated = await ReadSnapshotAsync(snapshotName, "Generated.cs");
 
+        SourceRunner.AssertCompilation(source);
+
         string expected = LineEndingsHelper.Normalize(generated)
             .Replace("%VERSION%", GeneratorAssemblyVersion);
 
