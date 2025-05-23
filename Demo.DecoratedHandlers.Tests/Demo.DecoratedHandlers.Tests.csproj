@@ -39,12 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Text\Snapshots\**\*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Roslyn\Snapshots\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -55,6 +49,13 @@
     <Compile Remove="Roslyn\Snapshots\CompositeHandler\Source.cs" />
     <Compile Remove="Roslyn\Snapshots\OneBehavior\Generated.cs" />
     <Compile Remove="Roslyn\Snapshots\OneBehavior\Source.cs" />
+    <Compile Remove="Text\Snapshots\DecoratedV1\Generated.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Text\Snapshots\DecoratedV1\Generated.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

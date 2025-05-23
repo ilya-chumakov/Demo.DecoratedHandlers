@@ -16,16 +16,12 @@ public class FooHandler : IRequestHandler<Alpha, Omega>
         throw new NotImplementedException();
     }
 }
-public class LogBehavior : IPipelineBehavior<Alpha, Omega>
+public class Bv1<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<Omega> Handle(Alpha request, RequestHandlerDelegate<Omega> next, CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
-}
-public class ExceptionBehavior : IPipelineBehavior<Alpha, Omega>
-{
-    public Task<Omega> Handle(Alpha request, RequestHandlerDelegate<Omega> next, CancellationToken ct = default)
+    public Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }

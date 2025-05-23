@@ -17,8 +17,7 @@ public class Tests(ITestOutputHelper output)
                 OutputNamespace: typeof(Alpha).Namespace
                 ),
             [
-                new BehaviorDescription(nameof(LogBehavior)), 
-                new BehaviorDescription(nameof(ExceptionBehavior))
+                new BehaviorDescription(nameof(Bv1<string,string>))
             ]
         );
 

@@ -18,16 +18,22 @@ public class BarHandler : IRequestHandler<Alpha, Omega>
         throw new NotImplementedException();
     }
 }
-public class LogBehavior : IPipelineBehavior<Alpha, Omega>
+public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<Omega> Handle(Alpha request, RequestHandlerDelegate<Omega> next, CancellationToken ct = default)
+    public Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }
 }
-public class ExceptionBehavior : IPipelineBehavior<Alpha, Omega>
+public class ExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<Omega> Handle(Alpha request, RequestHandlerDelegate<Omega> next, CancellationToken ct = default)
+    public Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }

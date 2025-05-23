@@ -19,11 +19,9 @@ namespace Demo.DecoratedHandlers.Tests.Text.Snapshots.DecoratedV1
             var handler = provider.GetRequiredService<FooHandler>(); 
             RequestHandlerDelegate<Omega> original = () => handler.HandleAsync(input, ct);
 
-            var b0 = provider.GetRequiredService<LogBehavior>();
+            var b0 = provider.GetRequiredService<Bv1<Alpha, Omega>>();
             RequestHandlerDelegate<Omega> f0 = () => b0.Handle(input, original, ct);
-            var b1 = provider.GetRequiredService<ExceptionBehavior>();
-            RequestHandlerDelegate<Omega> f1 = () => b1.Handle(input, f0, ct);
-            return f1();
+            return f0();
         }
     } 
 

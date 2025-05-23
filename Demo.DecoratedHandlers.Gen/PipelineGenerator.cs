@@ -66,7 +66,7 @@ public class PipelineGenerator : IIncrementalGenerator
 
             var symbol = ctx.SemanticModel.GetDeclaredSymbol(syntax);
 
-            if (symbol is not { IsGenericType: false, IsAnonymousType: false } ||
+            if (symbol is not { IsGenericType: true, IsAnonymousType: false } ||
                 symbol.AllInterfaces is not { Length: > 0 })
                 return default;
 

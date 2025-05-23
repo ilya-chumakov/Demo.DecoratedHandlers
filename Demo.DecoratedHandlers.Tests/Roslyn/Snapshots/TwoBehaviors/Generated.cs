@@ -19,9 +19,9 @@ namespace Demo.DecoratedHandlers.Tests.Roslyn.Snapshots.TwoBehaviors
             var handler = provider.GetRequiredService<BarHandler>(); 
             RequestHandlerDelegate<Omega> original = () => handler.HandleAsync(input, ct);
 
-            var b0 = provider.GetRequiredService<LogBehavior>();
+            var b0 = provider.GetRequiredService<LogBehavior<Alpha, Omega>>();
             RequestHandlerDelegate<Omega> f0 = () => b0.Handle(input, original, ct);
-            var b1 = provider.GetRequiredService<ExceptionBehavior>();
+            var b1 = provider.GetRequiredService<ExceptionBehavior<Alpha, Omega>>();
             RequestHandlerDelegate<Omega> f1 = () => b1.Handle(input, f0, ct);
             return f1();
         }

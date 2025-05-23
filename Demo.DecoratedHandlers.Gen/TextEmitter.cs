@@ -65,7 +65,7 @@ public static class TextEmitter
 
             sb.AppendLine(
                 $"""
-                             var {currentBehavior} = provider.GetRequiredService<{name}>();
+                             var {currentBehavior} = provider.GetRequiredService<{name}<{typePair}>>();
                              {delegateType} {currentFunc} = () => {currentBehavior}.Handle(input, {targetFunc}, ct);
                  """);
 

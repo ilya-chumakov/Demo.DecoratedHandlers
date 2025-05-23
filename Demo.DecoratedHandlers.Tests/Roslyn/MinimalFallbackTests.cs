@@ -43,9 +43,12 @@ public record Omega;
 
 public class Bar : IRequestHandler<Alpha, Omega> { }
 
-public class LogBehavior : IPipelineBehavior<Alpha, Omega>
+public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<Omega> Handle(Alpha request, RequestHandlerDelegate<Omega> next, CancellationToken ct = default)
+    public Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }
