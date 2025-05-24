@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Demo.DecoratedHandlers.Gen;
 
-namespace Demo.DecoratedHandlers.Tests.Roslyn.Snapshots.TwoBehaviors;
+namespace Demo.DecoratedHandlers.Tests.Snapshots.TwoBehaviors;
 
 public record Alpha;
 public record Omega;

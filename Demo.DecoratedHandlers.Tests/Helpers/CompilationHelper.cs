@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Demo.DecoratedHandlers.Tests.Roslyn;
+namespace Demo.DecoratedHandlers.Tests.Helpers;
 
-public class SourceRunner
+public class CompilationHelper
 {
     public static void AssertCompilation(string source)
     {

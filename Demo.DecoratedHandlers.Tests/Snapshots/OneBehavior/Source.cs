@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Demo.DecoratedHandlers.Gen;
 
-namespace Demo.DecoratedHandlers.Tests.Roslyn.Snapshots.NoBehaviors;
+namespace Demo.DecoratedHandlers.Tests.Snapshots.OneBehavior;
 
 public record Alpha;
 public record Omega;
@@ -15,6 +15,17 @@ public class BarHandler : IRequestHandler<Alpha, Omega>
 {
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {
-        return Task.FromResult(new Omega());
+        throw new NotImplementedException();
+    }
+}
+
+public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+{
+    public Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
     }
 }

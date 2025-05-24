@@ -4,8 +4,9 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Demo.DecoratedHandlers.Tests.Roslyn;
+namespace Demo.DecoratedHandlers.Tests.Helpers;
 
 public static class Verifier
 {
@@ -14,13 +15,12 @@ public static class Verifier
         public Test()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net90;
-            
+
             var refs = new[]
             {
                 typeof(IRequestHandler<,>).Assembly,
                 typeof(PipelineGenerator).Assembly,
-                typeof(Microsoft.Extensions.DependencyInjection.Extensions
-                    .ServiceCollectionDescriptorExtensions).Assembly,
+                typeof(ServiceCollectionDescriptorExtensions).Assembly
             };
             foreach (var asm in refs)
             {
