@@ -1,11 +1,12 @@
 ﻿using Demo.DecoratedHandlers.Gen;
+using Demo.DecoratedHandlers.Tests.Models;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Demo.DecoratedHandlers.Tests.Helpers;
 
 public class TextHelper
 {
-    public static void AssertEquality(ISourceDescription sourceDescription, string expected)
+    public static void AssertEquality(SourceDescriptionBase sourceDescription, string expected)
     {
         SourceText actual =
             TextEmitter.CreatePipelineText(sourceDescription.Handlers.Single(), sourceDescription.Behaviors);

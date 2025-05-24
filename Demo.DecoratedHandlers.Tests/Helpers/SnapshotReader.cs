@@ -1,4 +1,5 @@
 ﻿using Demo.DecoratedHandlers.Gen;
+using Demo.DecoratedHandlers.Tests.Models;
 
 namespace Demo.DecoratedHandlers.Tests.Helpers;
 
@@ -7,38 +8,33 @@ public static class SnapshotReader
     private static readonly string GeneratorAssemblyVersion =
         typeof(TextEmitter).Assembly.GetName().Version?.ToString();
 
-    private static async Task<string> ReadSnapshotAsync(string snapshot, string file)
+    public static async Task<List<TestFile>> ReadAsync(
+        string foldername,
+        List<FileDescription> files)
     {
-        string path = Path.Combine("Snapshots\\" + snapshot, file);
-
-        return await File.ReadAllTextAsync(path);
-    }
-
-    public static async Task<TestDescription.File> ReadSourceAsync(string snapshotCodename,
-        string snapshotFilename = "Source.cs")
-    {
-        return new TestDescription.File
+        List<TestFile> sources = new();
+        foreach (var description in files)
         {
-            Name = snapshotFilename,
-            Content = await ReadSnapshotAsync(snapshotCodename, snapshotFilename)
-        };
+            string content = await ReadAllTextAsync(foldername, description.RelativePath);
+
+            sources.Add(new TestFile
+            {
+                Name = description.GeneratedFileName,
+                Content = content
+            });
+        }
+        return sources;
     }
 
-    public static async Task<TestDescription.File> ReadExpectedAsync(
-        string snapshotCodename,
-        string snapshotFilename = "Generated.cs",
-        string generatedFilename = "BarHandler_Pipeline.g.cs")
+    public static async Task<string> ReadAllTextAsync(
+        string folder, string name)
     {
-        string content = await ReadSnapshotAsync(snapshotCodename, snapshotFilename);
-
+        string path = Path.Combine("Snapshots", folder, name);
+        string content = await File.ReadAllTextAsync(path);
 
         string normalized = LineEndingsHelper.Normalize(content)
             .Replace("%VERSION%", GeneratorAssemblyVersion);
 
-        return new TestDescription.File
-        {
-            Name = generatedFilename,
-            Content = normalized
-        };
+        return normalized;
     }
 }

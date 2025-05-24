@@ -1,17 +1,23 @@
 ﻿using System.Text;
 using Demo.DecoratedHandlers.Gen;
+using Demo.DecoratedHandlers.Tests.Models;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Demo.DecoratedHandlers.Tests.Helpers;
 
 public static class GenerationHelper
 {
-    public static async Task AssertGenerationEquality(TestDescription description)
+    public static async Task AssertGenerationEquality(
+        List<TestFile> sourceFiles, 
+        List<TestFile> expectedFiles)
     {
         var test = new Verifier.Test();
-        test.TestState.Sources.Add((filename: "SomeUnusedName.cs", content: description.Source.Content));
+        foreach (TestFile file in sourceFiles)
+        {
+            test.TestState.Sources.Add((filename: "SomeUnusedName.cs", content: file.Content));
+        }
 
-        foreach (var result in description.Results)
+        foreach (var result in expectedFiles)
         {
             test.TestState.GeneratedSources.Add((
                 sourceGeneratorType: typeof(PipelineGenerator),

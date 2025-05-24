@@ -1,4 +1,5 @@
 ﻿using Demo.DecoratedHandlers.Tests.Helpers;
+using Demo.DecoratedHandlers.Tests.Models;
 using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.Tests;
@@ -8,62 +9,39 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
     [Fact]
     public async Task GeneratorOutput_NoBehavior_OK()
     {
-        var sourceDescription = new Snapshots.NoBehaviors.SourceDescription();
-        var test = new TestDescription
-        {
-            SourceDescription = sourceDescription,
-            Source = await SnapshotReader.ReadSourceAsync(sourceDescription.FolderName),
-            Results = []
-        };
-
-        await AssertGen(test, false);
+        await VerifyGenerationFrom<Snapshots.NoBehaviors.SourceDescription>();
     }
 
     [Fact]
     public async Task GeneratorOutput_OneBehavior_OK()
     {
-        var sourceDescription = new Snapshots.OneBehavior.SourceDescription();
-        var test = new TestDescription
-        {
-            SourceDescription = sourceDescription,
-            Source = await SnapshotReader.ReadSourceAsync(sourceDescription.FolderName),
-            Results = [await SnapshotReader.ReadExpectedAsync(sourceDescription.FolderName)]
-        };
-
-        await AssertGen(test, false);
+        await VerifyGenerationFrom<Snapshots.OneBehavior.SourceDescription>();
     }
 
     [Fact]
     public async Task GeneratorOutput_TwoBehaviors_OK()
     {
-        var sourceDescription = new Snapshots.TwoBehaviors.SourceDescription();
-        var test = new TestDescription
-        {
-            SourceDescription = sourceDescription,
-            Source = await SnapshotReader.ReadSourceAsync(sourceDescription.FolderName),
-            Results = [await SnapshotReader.ReadExpectedAsync(sourceDescription.FolderName)]
-        };
-
-        await AssertGen(test, false);
+        await VerifyGenerationFrom<Snapshots.TwoBehaviors.SourceDescription>();
     }
 
-    private static async Task AssertGen(TestDescription test, bool requireResult = true)
+    private static async Task VerifyGenerationFrom<TSourceDescription>()
+        where TSourceDescription : SourceDescriptionBase, new()
     {
-        // text
-        if (requireResult && test.Results.Count == 0)
-        {
-            Assert.Fail("expected at least snapshot result");
-        }
+        SourceDescriptionBase description = new TSourceDescription();
 
-        if (test.Results.Count > 0)
+        var sourceFiles = await SnapshotReader.ReadAsync(description.FolderName, description.SourceFiles);
+        var expectedFiles = await SnapshotReader.ReadAsync(description.FolderName, description.ExpectedFiles);
+
+        // text
+        if (expectedFiles.Count > 0)
         {
-            TextHelper.AssertEquality(test.SourceDescription, test.Results.Single().Content);
+            TextHelper.AssertEquality(description, expectedFiles.Single().Content);
         }
 
         // compilation
-        CompilationHelper.AssertCompilation(test.Source.Content);
+        CompilationHelper.AssertCompilation(sourceFiles.Single().Content);
 
         // generation
-        await GenerationHelper.AssertGenerationEquality(test);
+        await GenerationHelper.AssertGenerationEquality(sourceFiles, expectedFiles);
     }
 }

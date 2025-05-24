@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Snapshots\**\Generated.cs">
+    <Compile Update="Snapshots\**\Expected.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
       <Compile Update="Snapshots\**\Source.cs">
