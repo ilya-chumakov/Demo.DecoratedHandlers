@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -25,6 +26,7 @@ public class PipelineGenerator : IIncrementalGenerator
             .CreateSyntaxProvider(
                 predicate: static (SyntaxNode node, CancellationToken _) => node is ClassDeclarationSyntax,
                 transform: TransformHandlers())
+            .SelectMany(static (symbol, _) => symbol) // flatten
             .Where(static symbol => symbol != default)
             .Collect();
 
@@ -47,10 +49,10 @@ public class PipelineGenerator : IIncrementalGenerator
 
             //todo it's useful, make conditional? how?
             //ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
-                
+
             foreach (var handler in handlers)
             {
-                string filename = $"{handler.HandlerTypeName}_Pipeline.g.cs";
+                string filename = $"{handler.HandlerTypeName}_Pipeline{handler.PipelineSuffix}.g.cs";
                 SourceText sourceText = TextEmitter.CreatePipelineText(handler, behaviors);
                 ctx.AddSource(filename, sourceText);
             }
@@ -70,7 +72,7 @@ public class PipelineGenerator : IIncrementalGenerator
                 symbol.AllInterfaces is not { Length: > 0 })
                 return default;
 
-            var face = symbol.AllInterfaces.FirstOrDefault(i => 
+            var face = symbol.AllInterfaces.FirstOrDefault(i =>
                 i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
                 i.Name == AbstractionsMetadata.BehaviorInterfaceSymbolName);
 
@@ -80,32 +82,45 @@ public class PipelineGenerator : IIncrementalGenerator
         };
     }
 
-    private static Func<GeneratorSyntaxContext, CancellationToken, HandlerDescription> TransformHandlers()
+    private static Func<GeneratorSyntaxContext, CancellationToken, IEnumerable<HandlerDescription>> TransformHandlers()
     {
         return static (GeneratorSyntaxContext ctx, CancellationToken _) =>
         {
             if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
                 return default;
 
-            var symbol = ctx.SemanticModel.GetDeclaredSymbol(syntax);
+            INamedTypeSymbol handler = ctx.SemanticModel.GetDeclaredSymbol(syntax);
 
-            if (symbol is not { IsGenericType: false, IsAnonymousType: false } ||
-                symbol.AllInterfaces is not { Length: > 0 })
+            if (handler is not { IsGenericType: false, IsAnonymousType: false } ||
+                handler.AllInterfaces is not { Length: > 0 })
                 return default;
 
-            var face = symbol.AllInterfaces.FirstOrDefault(i => 
+            IEnumerable<INamedTypeSymbol> interfaces = handler.AllInterfaces.Where(i =>
                 i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
                 i.Name == AbstractionsMetadata.RequestInterfaceSymbolName);
 
-            if (face is null) return default;
+            List<HandlerDescription> descriptions = [];
 
-            return new HandlerDescription(
-                symbol.Name,
-                face.TypeArguments[0].Name!,
-                face.TypeArguments[1].Name!,
-                // todo do we really need to call ToDisplayString?
-                symbol.ContainingNamespace.ToDisplayString()
-            );
+            // todo ensure stable order only on debug/testing
+            interfaces = interfaces.OrderBy(x => x.TypeArguments[0].Name!);
+
+            int index = 0;
+            foreach (var interf in interfaces)
+            {
+                string pipelineSuffix = index == 0 ? string.Empty : '_' + index.ToString();
+                index++;
+
+                var description = new HandlerDescription(
+                    HandlerTypeName: handler.Name,
+                    InputTypeName: interf.TypeArguments[0].Name!,
+                    OutputTypeName: interf.TypeArguments[1].Name!,
+                    // todo do we really need to call ToDisplayString?
+                    OutputNamespace: handler.ContainingNamespace.ToDisplayString(),
+                    PipelineSuffix: pipelineSuffix
+                );
+                descriptions.Add(description);
+            }
+            return descriptions;
         };
     }
 }

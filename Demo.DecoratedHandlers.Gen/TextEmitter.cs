@@ -9,7 +9,8 @@ public record HandlerDescription(
     string HandlerTypeName,
     string InputTypeName,
     string OutputTypeName,
-    string OutputNamespace);
+    string OutputNamespace,
+    string PipelineSuffix = "");
 
 public record BehaviorDescription(string TypeName);
 
@@ -27,7 +28,7 @@ public static class TextEmitter
         string typePair = $"{inputType}, {outputType}";
         string handlerType = handler.HandlerTypeName;
 
-        string pipelineType = $"{handlerType}Pipeline";
+        string pipelineType = $"{handlerType}Pipeline{handler.PipelineSuffix}";
         string targetFunc = "original";
         string delegateType = $"RequestHandlerDelegate<{outputType}>";
 

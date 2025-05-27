@@ -39,11 +39,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Snapshots\**\Expected.cs">
+    <Compile Update="Snapshots\**\Expected*.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
       <Compile Update="Snapshots\**\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Src\Drafts\Demo.DecoratedHandlers\Demo.DecoratedHandlers.Tests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Src\Drafts\Demo.DecoratedHandlers\Demo.DecoratedHandlers.Tests\.editorconfig" />
   </ItemGroup>
 </Project>

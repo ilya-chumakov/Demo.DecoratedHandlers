@@ -1,4 +1,5 @@
-﻿using Demo.DecoratedHandlers.Tests.Helpers;
+﻿using Demo.DecoratedHandlers.Gen;
+using Demo.DecoratedHandlers.Tests.Helpers;
 using Demo.DecoratedHandlers.Tests.Models;
 using Xunit.Abstractions;
 
@@ -24,6 +25,12 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
         await VerifyGenerationFrom<Snapshots.TwoBehaviors.SourceDescription>();
     }
 
+    [Fact]
+    public async Task GeneratorOutput_CompositeHandler_OK()
+    {
+        await VerifyGenerationFrom<Snapshots.CompositeHandler.SourceDescription>();
+    }
+
     private static async Task VerifyGenerationFrom<TSourceDescription>()
         where TSourceDescription : SourceDescriptionBase, new()
     {
@@ -35,11 +42,17 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
         // text
         if (expectedFiles.Count > 0)
         {
-            TextHelper.AssertEquality(description, expectedFiles.Single().Content);
+            for (int i = 0; i < description.Handlers.Count; i++)
+            {
+                TextHelper.AssertEquality(expectedFiles[i].Content, description.Handlers[i], description.Behaviors);
+            }
         }
 
         // compilation
-        CompilationHelper.AssertCompilation(sourceFiles.Single().Content);
+        foreach (var file in sourceFiles)
+        {
+            CompilationHelper.AssertCompilation(file.Content);
+        }
 
         // generation
         await GenerationHelper.AssertGenerationEquality(sourceFiles, expectedFiles);
