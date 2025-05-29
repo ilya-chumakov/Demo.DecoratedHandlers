@@ -25,7 +25,7 @@ public static class DebugEmitter
         
         foreach (var handler in handlers)
         {
-            sb.AppendLine($"//{handler.HandlerTypeName}");
+            sb.AppendLine($"//{handler.Name}");
         }
 
         sb.AppendLine(

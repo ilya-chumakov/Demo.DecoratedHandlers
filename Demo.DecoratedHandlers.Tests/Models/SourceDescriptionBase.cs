@@ -18,4 +18,20 @@ public abstract class SourceDescriptionBase
 
     public static FileDescription DefaultSourceFile { get; } = new("Source.cs", null);
     public static FileDescription DefaultExpectedFile { get; } = new("Expected.cs", "BarHandler_Pipeline.g.cs");
+
+    protected static string GetDisplayFullName<TType>()
+    {
+        var type = typeof(TType);
+
+        if (type.IsGenericType)
+        {
+            string name = type.Name;
+            int index = name.IndexOf('`');
+            string trimmed = index >= 0 ? name.Substring(0, index) : name;
+
+            return "global::" + type.Namespace + "." + trimmed;    
+        }
+
+        return "global::" + type.FullName;
+    }
 }

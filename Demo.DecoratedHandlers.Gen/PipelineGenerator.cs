@@ -52,7 +52,7 @@ public class PipelineGenerator : IIncrementalGenerator
 
             foreach (var handler in handlers)
             {
-                string filename = $"{handler.HandlerTypeName}_Pipeline{handler.PipelineSuffix}.g.cs";
+                string filename = $"{handler.Name}_Pipeline{handler.PipelineSuffix}.g.cs";
                 SourceText sourceText = TextEmitter.CreatePipelineText(handler, behaviors);
                 ctx.AddSource(filename, sourceText);
             }
@@ -66,19 +66,21 @@ public class PipelineGenerator : IIncrementalGenerator
             if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
                 return default;
 
-            var symbol = ctx.SemanticModel.GetDeclaredSymbol(syntax);
+            INamedTypeSymbol beh = ctx.SemanticModel.GetDeclaredSymbol(syntax);
 
-            if (symbol is not { IsGenericType: true, IsAnonymousType: false } ||
-                symbol.AllInterfaces is not { Length: > 0 })
+            if (beh is not { IsGenericType: true, IsAnonymousType: false } ||
+                beh.AllInterfaces is not { Length: > 0 })
                 return default;
 
-            var face = symbol.AllInterfaces.FirstOrDefault(i =>
+            var face = beh.AllInterfaces.FirstOrDefault(i =>
                 i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
                 i.Name == AbstractionsMetadata.BehaviorInterfaceSymbolName);
 
             if (face is null) return default;
 
-            return new BehaviorDescription(symbol.Name);
+            return new BehaviorDescription(
+                TypeName: beh.ContainingNamespace.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) + '.' + beh.Name
+            );
         };
     }
 
@@ -110,15 +112,16 @@ public class PipelineGenerator : IIncrementalGenerator
                 string pipelineSuffix = index == 0 ? string.Empty : '_' + index.ToString();
                 index++;
 
+                // FYI: use Name property for short name
+                // todo do we really need to call ToDisplayString?
+
                 var description = new HandlerDescription(
-                    HandlerTypeName: handler.Name,
-                    HandlerTypeFullName: handler.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    InputTypeName: interf.TypeArguments[0].Name!,
-                    OutputTypeName: interf.TypeArguments[1].Name!,
-                    // todo do we really need to call ToDisplayString?
+                    Name: handler.Name,
+                    FullName: handler.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                     ContainingNamespace: handler.ContainingNamespace.ToDisplayString(),
-                    PipelineSuffix: pipelineSuffix
-                );
+                    InputFullName: interf.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), 
+                    OutputFullName: interf.TypeArguments[1].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), 
+                    PipelineSuffix: pipelineSuffix);
                 descriptions.Add(description);
             }
             return descriptions;

@@ -7,12 +7,9 @@ public class SourceDescription : SourceDescriptionBase
     public SourceDescription()
     {
         Handlers.Add(new(
-            HandlerTypeName: nameof(BarHandler),
-            HandlerTypeFullName:  "global::" + typeof(BarHandler).FullName,
-            InputTypeName: nameof(Alpha),
-            OutputTypeName: nameof(Omega),
-            ContainingNamespace: typeof(Alpha).Namespace
-        ));
+            Name: nameof(BarHandler),
+            FullName: "global::" + typeof(BarHandler).FullName,
+            ContainingNamespace: typeof(Alpha).Namespace, InputFullName: nameof(Alpha), OutputFullName: nameof(Omega)));
 
         SourceFiles.Add(DefaultSourceFile);
     }

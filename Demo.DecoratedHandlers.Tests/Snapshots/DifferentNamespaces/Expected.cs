@@ -24,7 +24,7 @@ using DelegateAlias = RequestHandlerDelegate<
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Demo.DecoratedHandlers.Gen", "%VERSION%")]
 [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Always)]
 
-public class BarHandlerPipeline(global::System.IServiceProvider provider) : InterfaceAlias
+public class BarHandlerPipeline(IServiceProvider provider) : InterfaceAlias
 {
     public Task<Omega> HandleAsync(
         Alpha input, 
@@ -50,7 +50,7 @@ internal static class ServiceCollectionExtensions_BarHandlerPipeline
 {
     [RegisterThis]
     internal static void ReplaceHandlerWithPipeline(
-        this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+        this IServiceCollection services)
     {
         services.ReplaceWithPipeline<IRequestHandler<Alpha, Omega>, BarHandler, BarHandlerPipeline>();
     }

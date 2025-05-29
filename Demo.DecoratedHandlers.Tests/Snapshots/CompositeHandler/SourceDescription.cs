@@ -1,4 +1,5 @@
-﻿using Demo.DecoratedHandlers.Tests.Models;
+﻿using Demo.DecoratedHandlers.Gen;
+using Demo.DecoratedHandlers.Tests.Models;
 
 namespace Demo.DecoratedHandlers.Tests.Snapshots.CompositeHandler;
 
@@ -7,13 +8,16 @@ public class SourceDescription : SourceDescriptionBase
     public SourceDescription()
     {
         Handlers.Add(new(
-            HandlerTypeName: nameof(BarHandler),
-            HandlerTypeFullName: "global::" + typeof(BarHandler).FullName,
-            InputTypeName: nameof(Alpha),
-            OutputTypeName: nameof(Omega),
-            ContainingNamespace: typeof(Alpha).Namespace
-        ));
-        Behaviors.Add(new(nameof(LogBehavior<string, string>)));
+            Name: nameof(BarHandler),
+            FullName: GetDisplayFullName<BarHandler>(),
+            ContainingNamespace: typeof(Alpha).Namespace,
+            InputFullName: GetDisplayFullName<Alpha>(),
+            OutputFullName: GetDisplayFullName<Omega>()));
+        
+        Behaviors.Add(new BehaviorDescription(
+                GetDisplayFullName<LogBehavior<string, string>>()
+            )
+        );
 
         SourceFiles.Add(DefaultSourceFile);
         ExpectedFiles.Add(new FileDescription("ExpectedAlpha.cs", "BarHandler_Pipeline.g.cs"));
