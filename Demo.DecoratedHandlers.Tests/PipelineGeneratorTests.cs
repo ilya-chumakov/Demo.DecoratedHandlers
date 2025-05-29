@@ -31,6 +31,12 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
         await VerifyGenerationFrom<Snapshots.CompositeHandler.SourceDescription>();
     }
 
+    [Fact]
+    public async Task GeneratorOutput_DifferentNamespaces_OK()
+    {
+        await VerifyGenerationFrom<Snapshots.DifferentNamespaces.SourceDescription>();
+    }
+
     private static async Task VerifyGenerationFrom<TSourceDescription>()
         where TSourceDescription : SourceDescriptionBase, new()
     {

@@ -1,5 +1,4 @@
 ﻿using Demo.DecoratedHandlers.Tests.Models;
-using Demo.DecoratedHandlers.Tests.Snapshots.OneBehavior;
 
 namespace Demo.DecoratedHandlers.Tests.Snapshots.CompositeHandler;
 
@@ -9,9 +8,10 @@ public class SourceDescription : SourceDescriptionBase
     {
         Handlers.Add(new(
             HandlerTypeName: nameof(BarHandler),
+            HandlerTypeFullName: "global::" + typeof(BarHandler).FullName,
             InputTypeName: nameof(Alpha),
             OutputTypeName: nameof(Omega),
-            OutputNamespace: typeof(Alpha).Namespace
+            ContainingNamespace: typeof(Alpha).Namespace
         ));
         Behaviors.Add(new(nameof(LogBehavior<string, string>)));
 

@@ -112,10 +112,11 @@ public class PipelineGenerator : IIncrementalGenerator
 
                 var description = new HandlerDescription(
                     HandlerTypeName: handler.Name,
+                    HandlerTypeFullName: handler.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                     InputTypeName: interf.TypeArguments[0].Name!,
                     OutputTypeName: interf.TypeArguments[1].Name!,
                     // todo do we really need to call ToDisplayString?
-                    OutputNamespace: handler.ContainingNamespace.ToDisplayString(),
+                    ContainingNamespace: handler.ContainingNamespace.ToDisplayString(),
                     PipelineSuffix: pipelineSuffix
                 );
                 descriptions.Add(description);

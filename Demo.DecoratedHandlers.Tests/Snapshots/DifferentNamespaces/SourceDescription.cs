@@ -1,6 +1,10 @@
 ﻿using Demo.DecoratedHandlers.Tests.Models;
+using Demo.DecoratedHandlers.Tests.Snapshots.DifferentNamespaces.RequestNamespace;
+using Demo.DecoratedHandlers.Tests.Snapshots.DifferentNamespaces.ResponseNamespace;
+using Demo.DecoratedHandlers.Tests.Snapshots.DifferentNamespaces.HandlerNamespace;
+using Demo.DecoratedHandlers.Tests.Snapshots.DifferentNamespaces.BehaviorNamespace;
 
-namespace Demo.DecoratedHandlers.Tests.Snapshots.OneBehavior;
+namespace Demo.DecoratedHandlers.Tests.Snapshots.DifferentNamespaces;
 
 public class SourceDescription : SourceDescriptionBase
 {
@@ -8,7 +12,7 @@ public class SourceDescription : SourceDescriptionBase
     {
         Handlers.Add(new(
             HandlerTypeName: nameof(BarHandler),
-            HandlerTypeFullName: "global::" + typeof(BarHandler).FullName,
+            HandlerTypeFullName:  "global::" + typeof(BarHandler).FullName,
             InputTypeName: nameof(Alpha),
             OutputTypeName: nameof(Omega),
             ContainingNamespace: typeof(Alpha).Namespace

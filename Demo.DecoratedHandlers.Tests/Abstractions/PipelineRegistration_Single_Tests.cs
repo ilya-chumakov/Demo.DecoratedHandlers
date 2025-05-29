@@ -132,12 +132,12 @@ public class PipelineRegistration_Single_Tests
 
     private class FooHandler : IRequestHandler<FooInput, FooOutput>
     {
-        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default) => Task.FromResult(new FooOutput("fooName"));
+        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default)=> Task.FromResult(new FooOutput("fooName"));
     }
 
     private class FooHandlerPipeline : IRequestHandler<FooInput, FooOutput>
     {
-        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default) => Task.FromResult(new FooOutput("fooName"));
+        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default)=> Task.FromResult(new FooOutput("fooName"));
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public class PipelineRegistration_Single_Tests
     /// </summary>
     private class AnotherHandler : IRequestHandler<FooInput, FooOutput>
     {
-        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default) => Task.FromResult(new FooOutput("fooName"));
+        public Task<FooOutput> HandleAsync(FooInput input, CancellationToken ct = default)=> Task.FromResult(new FooOutput("fooName"));
     }
 
 }
