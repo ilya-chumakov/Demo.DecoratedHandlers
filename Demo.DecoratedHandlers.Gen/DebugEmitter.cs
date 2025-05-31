@@ -36,7 +36,7 @@ public static class DebugEmitter
 
         foreach (var beh in behaviors)
         {
-            sb.AppendLine($"//{beh.TypeName}");
+            sb.AppendLine($"//{beh.FullNamePrefix}");
         }
 
         return SourceText.From(sb.ToString(), Encoding.UTF8);

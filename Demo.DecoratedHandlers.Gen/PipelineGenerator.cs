@@ -79,7 +79,7 @@ public class PipelineGenerator : IIncrementalGenerator
             if (face is null) return default;
 
             return new BehaviorDescription(
-                TypeName: beh.ContainingNamespace.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) + '.' + beh.Name
+                FullNamePrefix: beh.ContainingNamespace.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) + '.' + beh.Name
             );
         };
     }
