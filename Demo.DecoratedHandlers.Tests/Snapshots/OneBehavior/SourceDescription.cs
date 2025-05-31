@@ -10,7 +10,7 @@ public class SourceDescription : SourceDescriptionBase
         Handlers.Add(new(
             Name: nameof(BarHandler),
             FullName: GetDisplayFullName<BarHandler>(),
-            ContainingNamespace: typeof(Alpha).Namespace,
+            ContainingNamespace: typeof(BarHandler).Namespace,
             InputFullName: GetDisplayFullName<Alpha>(),
             OutputFullName: GetDisplayFullName<Omega>()));
 

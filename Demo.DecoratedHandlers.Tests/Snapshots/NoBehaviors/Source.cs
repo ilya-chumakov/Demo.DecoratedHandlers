@@ -2,9 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Demo.DecoratedHandlers.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Demo.DecoratedHandlers.Gen;
 
 namespace Demo.DecoratedHandlers.Tests.Snapshots.NoBehaviors;
 

@@ -32,9 +32,9 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
     }
 
     [Fact]
-    public async Task GeneratorOutput_DifferentNamespaces_OK()
+    public async Task GeneratorOutput_SameName_OK()
     {
-        await VerifyGenerationFrom<Snapshots.DifferentNamespaces.SourceDescription>();
+        await VerifyGenerationFrom<Snapshots.SameName.SourceDescription>();
     }
 
     private static async Task VerifyGenerationFrom<TSourceDescription>()
