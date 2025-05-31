@@ -21,7 +21,7 @@ namespace Demo.DecoratedHandlers.Tests.Snapshots.SameName.HandlerNamespace
     {
         public Task<ResponseNamespace.Foo> HandleAsync(RequestNamespace.Foo input, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }
@@ -35,7 +35,7 @@ namespace Demo.DecoratedHandlers.Tests.Snapshots.SameName.BehaviorNamespace
             RequestHandlerDelegate<TResponse> next, 
             CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

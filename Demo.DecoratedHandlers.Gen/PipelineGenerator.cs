@@ -66,20 +66,22 @@ public class PipelineGenerator : IIncrementalGenerator
             if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
                 return default;
 
-            INamedTypeSymbol beh = ctx.SemanticModel.GetDeclaredSymbol(syntax);
+            INamedTypeSymbol behavior = ctx.SemanticModel.GetDeclaredSymbol(syntax);
 
-            if (beh is not { IsGenericType: true, IsAnonymousType: false } ||
-                beh.AllInterfaces is not { Length: > 0 })
+            if (behavior is not { IsGenericType: true, IsAnonymousType: false } ||
+                behavior.AllInterfaces is not { Length: > 0 })
                 return default;
 
-            var face = beh.AllInterfaces.FirstOrDefault(i =>
+            INamedTypeSymbol interf = behavior.AllInterfaces.FirstOrDefault(i =>
                 i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
                 i.Name == AbstractionsMetadata.BehaviorInterfaceSymbolName);
 
-            if (face is null) return default;
+            if (interf is null) return default;
 
+            string ns = behavior.ContainingNamespace.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            
             return new BehaviorDescription(
-                FullNamePrefix: beh.ContainingNamespace.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) + '.' + beh.Name
+                FullNamePrefix: ns + '.' + behavior.Name
             );
         };
     }

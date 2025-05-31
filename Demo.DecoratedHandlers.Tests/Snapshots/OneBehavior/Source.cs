@@ -12,7 +12,7 @@ public class BarHandler : IRequestHandler<Alpha, Omega>
 {
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }
 
@@ -23,6 +23,6 @@ public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TRes
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }

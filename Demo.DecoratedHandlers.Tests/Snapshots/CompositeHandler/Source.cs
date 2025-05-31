@@ -15,12 +15,12 @@ public class BarHandler :
 {
     public Task<Omega> HandleAsync(Alpha input, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 
     public Task<Omega> HandleAsync(Beta input, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }
 public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
@@ -30,6 +30,6 @@ public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TRes
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }
