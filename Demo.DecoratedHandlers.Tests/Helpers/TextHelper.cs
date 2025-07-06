@@ -1,4 +1,5 @@
 ﻿using Demo.DecoratedHandlers.Gen;
+using DiffPlex.Renderer;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Demo.DecoratedHandlers.Tests.Helpers;
@@ -23,5 +24,22 @@ public class TextHelper
         }
 
         Assert.True(areEqual, output);
+    }
+    public static void AssertEqualityWithDiffPlex(string expected, HandlerDescription handler, List<BehaviorDescription> behaviors)
+    {
+        string actual = TextEmitter.CreatePipelineText(handler, behaviors).ToString();
+
+        string expectedNormalized = LineEndingsHelper.Normalize(expected)
+            .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString());
+
+        if (actual == expectedNormalized) return;
+
+        string unidiff = UnidiffRenderer.GenerateUnidiff(
+            oldText: expectedNormalized, 
+            newText: actual,
+            contextLines: 3
+        );
+
+        Assert.Fail(unidiff);
     }
 }

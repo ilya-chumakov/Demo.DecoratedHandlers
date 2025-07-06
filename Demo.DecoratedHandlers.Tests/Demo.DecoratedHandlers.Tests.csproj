@@ -14,6 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="DiffPlex" Version="1.8.0" />
     <PackageReference Include="FluentAssertions" Version="[7.2.0, 8.0.0)" />
     <PackageReference Include="Meziantou.Extensions.Logging.InMemory" Version="1.2.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />

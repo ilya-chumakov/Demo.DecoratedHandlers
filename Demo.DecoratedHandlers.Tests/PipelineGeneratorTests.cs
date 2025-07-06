@@ -45,19 +45,23 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
         var sourceFiles = await SnapshotReader.ReadAsync(description.FolderName, description.SourceFiles);
         var expectedFiles = await SnapshotReader.ReadAsync(description.FolderName, description.ExpectedFiles);
 
+        // compilation
+        // optional, files are included in the project now, therefore step is no needed
+        if (false)
+        {
+            foreach (var file in sourceFiles)
+            {
+                CompilationHelper.AssertCompilation(file.Content);
+            } 
+        }
+
         // text
         if (expectedFiles.Count > 0)
         {
             for (int i = 0; i < description.Handlers.Count; i++)
             {
-                TextHelper.AssertEquality(expectedFiles[i].Content, description.Handlers[i], description.Behaviors);
+                TextHelper.AssertEqualityWithDiffPlex(expectedFiles[i].Content, description.Handlers[i], description.Behaviors);
             }
-        }
-
-        // compilation
-        foreach (var file in sourceFiles)
-        {
-            CompilationHelper.AssertCompilation(file.Content);
         }
 
         // generation
