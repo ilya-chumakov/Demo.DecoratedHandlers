@@ -43,6 +43,12 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
         await VerifyGenerationFrom<Snapshots.PartialHandler.SourceDescription>();
     }
 
+    [Fact]
+    public async Task GeneratorOutput_PartialBehavior_OK()
+    {
+        await VerifyGenerationFrom<Snapshots.PartialBehavior.SourceDescription>();
+    }
+
     private static async Task VerifyGenerationFrom<TSourceDescription>()
         where TSourceDescription : SourceDescriptionBase, new()
     {
