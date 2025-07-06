@@ -26,10 +26,16 @@ public partial class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
         throw new NotSupportedException();
     }
 }
+
 public partial class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
     public Task<Omega> Foo()
     {
         throw new NotSupportedException();
     }
+}
+
+public partial class LogBehavior<TRequest, TResponse>
+{
+    public void Bar() { }
 }

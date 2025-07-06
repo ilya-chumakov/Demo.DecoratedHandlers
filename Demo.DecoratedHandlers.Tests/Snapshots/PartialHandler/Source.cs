@@ -15,12 +15,18 @@ public partial class BarHandler : IRequestHandler<Alpha, Omega>
         throw new NotSupportedException();
     }
 }
+
 public partial class BarHandler : IRequestHandler<Alpha, Omega>
 {
-    public Task<Omega> HandleAsync()
+    public Task<Omega> Foo()
     {
         throw new NotSupportedException();
     }
+}
+
+public partial class BarHandler
+{
+    public void Bar() { }
 }
 
 public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
