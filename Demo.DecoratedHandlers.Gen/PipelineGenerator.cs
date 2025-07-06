@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -50,7 +51,11 @@ public class PipelineGenerator : IIncrementalGenerator
             //todo it's useful, make conditional? how?
             //ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
 
-            foreach (var handler in handlers)
+            // distinct to support partial declarations
+            behaviors = behaviors.Distinct().ToImmutableArray();
+
+            // distict to support partial declarations
+            foreach (HandlerDescription handler in handlers.Distinct()) 
             {
                 string filename = $"{handler.Name}_Pipeline{handler.PipelineSuffix}.g.cs";
                 SourceText sourceText = TextEmitter.CreatePipelineText(handler, behaviors);
