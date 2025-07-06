@@ -35,14 +35,14 @@ public class BarHandlerPipeline(IServiceProvider provider) : InterfaceAlias
                 global::Demo.DecoratedHandlers.Tests.Snapshots.TwoBehaviors.Alpha,
                 global::Demo.DecoratedHandlers.Tests.Snapshots.TwoBehaviors.Omega>>();
 
-        DelegateAlias f0 = () => b0.Handle(input, original, ct);
+        DelegateAlias f0 = () => b0.HandleAsync(input, original, ct);
 
         var b1 = provider.GetRequiredService<
             global::Demo.DecoratedHandlers.Tests.Snapshots.TwoBehaviors.ExceptionBehavior<
                 global::Demo.DecoratedHandlers.Tests.Snapshots.TwoBehaviors.Alpha,
                 global::Demo.DecoratedHandlers.Tests.Snapshots.TwoBehaviors.Omega>>();
 
-        DelegateAlias f1 = () => b1.Handle(input, f0, ct);
+        DelegateAlias f1 = () => b1.HandleAsync(input, f0, ct);
 
         return f1();
     }

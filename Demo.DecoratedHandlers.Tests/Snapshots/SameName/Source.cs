@@ -30,7 +30,7 @@ namespace Demo.DecoratedHandlers.Tests.Snapshots.SameName.BehaviorNamespace
 {
     public class Foo<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        public Task<TResponse> Handle(
+        public Task<TResponse> HandleAsync(
             TRequest request, 
             RequestHandlerDelegate<TResponse> next, 
             CancellationToken ct = default)

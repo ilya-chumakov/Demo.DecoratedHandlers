@@ -18,7 +18,7 @@ public class BarHandler : IRequestHandler<Alpha, Omega>
 
 public partial class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<TResponse> Handle(
+    public Task<TResponse> HandleAsync(
         TRequest request, 
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct = default)

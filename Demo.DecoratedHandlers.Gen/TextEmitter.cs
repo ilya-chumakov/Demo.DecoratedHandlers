@@ -84,7 +84,7 @@ public static class TextEmitter
                                  {inputType},
                                  {outputType}>>();
 
-                         {delegateType} {currentFunc} = () => {currentBehavior}.Handle(input, {targetFunc}, ct);
+                         {delegateType} {currentFunc} = () => {currentBehavior}.HandleAsync(input, {targetFunc}, ct);
 
                  """);
 

@@ -6,7 +6,7 @@ namespace Demo.DecoratedHandlers.BarDomain;
 public class BarSecondBehavior<TRequest, TResponse>(ILogger<BarSecondBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
 {
-    public async Task<TResponse> Handle(
+    public async Task<TResponse> HandleAsync(
         TRequest request, 
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct)

@@ -35,7 +35,7 @@ public class FooPipeline(IServiceProvider provider) : InterfaceAlias
                 global::Demo.DecoratedHandlers.Tests.Snapshots.SameName.RequestNamespace.Foo,
                 global::Demo.DecoratedHandlers.Tests.Snapshots.SameName.ResponseNamespace.Foo>>();
 
-        DelegateAlias f0 = () => b0.Handle(input, original, ct);
+        DelegateAlias f0 = () => b0.HandleAsync(input, original, ct);
 
         return f0();
     }

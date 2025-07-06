@@ -31,7 +31,7 @@ public partial class BarHandler
 
 public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<TResponse> Handle(
+    public Task<TResponse> HandleAsync(
         TRequest request, 
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct = default)

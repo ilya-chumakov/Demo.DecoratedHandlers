@@ -6,7 +6,7 @@ namespace Demo.DecoratedHandlers.FooDomain;
 public class FooSecondBehavior<TRequest, TResponse>(ILogger<FooSecondBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
 {
-    public async Task<TResponse> Handle(
+    public async Task<TResponse> HandleAsync(
         TRequest request, 
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct)
@@ -21,7 +21,7 @@ public class FooSecondBehavior<TRequest, TResponse>(ILogger<FooSecondBehavior<TR
 
 public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
-    public Task<TResponse> Handle(
+    public Task<TResponse> HandleAsync(
         TRequest request, 
         RequestHandlerDelegate<TResponse> next, 
         CancellationToken ct = default)

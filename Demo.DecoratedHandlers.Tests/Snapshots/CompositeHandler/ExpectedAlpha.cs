@@ -35,7 +35,7 @@ public class BarHandlerPipeline(IServiceProvider provider) : InterfaceAlias
                 global::Demo.DecoratedHandlers.Tests.Snapshots.CompositeHandler.Alpha,
                 global::Demo.DecoratedHandlers.Tests.Snapshots.CompositeHandler.Omega>>();
 
-        DelegateAlias f0 = () => b0.Handle(input, original, ct);
+        DelegateAlias f0 = () => b0.HandleAsync(input, original, ct);
 
         return f0();
     }
