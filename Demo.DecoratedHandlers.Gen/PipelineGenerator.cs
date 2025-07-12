@@ -53,13 +53,14 @@ public class PipelineGenerator : IIncrementalGenerator
 
             // distinct to support partial declarations
             behaviors = behaviors.Distinct().ToImmutableArray();
+            handlers = handlers.Distinct().ToImmutableArray();
 
-            // distict to support partial declarations
-            foreach (HandlerDescription handler in handlers.Distinct()) 
+            var pipelines = new List<PipelineDescription>(handlers.Length);
+            foreach (HandlerDescription handler in handlers) 
             {
                 string filename = $"{handler.Name}_Pipeline{handler.PipelineSuffix}.g.cs";
-                SourceText sourceText = TextEmitter.CreatePipelineText(handler, behaviors);
-                ctx.AddSource(filename, sourceText);
+                (SourceText text, PipelineDescription pd) = TextEmitter.CreatePipelineText(handler, behaviors);
+                ctx.AddSource(filename, text);
             }
         });
     }

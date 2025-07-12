@@ -8,7 +8,7 @@ public class TextHelper
 {
     public static void AssertEquality(string expected, HandlerDescription handler, List<BehaviorDescription> behaviors)
     {
-        SourceText actual = TextEmitter.CreatePipelineText(handler, behaviors);
+        (SourceText actual, _) = TextEmitter.CreatePipelineText(handler, behaviors);
 
         string[] expectedLines = LineEndingsHelper.Normalize(expected)
             .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString())
@@ -27,7 +27,8 @@ public class TextHelper
     }
     public static void AssertEqualityWithDiffPlex(string expected, HandlerDescription handler, List<BehaviorDescription> behaviors)
     {
-        string actual = TextEmitter.CreatePipelineText(handler, behaviors).ToString();
+        (SourceText text, _)= TextEmitter.CreatePipelineText(handler, behaviors);
+        string actual = text.ToString();
 
         string expectedNormalized = LineEndingsHelper.Normalize(expected)
             .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString());
