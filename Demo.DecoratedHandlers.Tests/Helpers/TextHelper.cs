@@ -1,6 +1,9 @@
-﻿using Demo.DecoratedHandlers.Gen;
+﻿using System;
+using System.Collections.Generic;
+using Demo.DecoratedHandlers.Gen;
 using DiffPlex.Renderer;
 using Microsoft.CodeAnalysis.Text;
+using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.Tests.Helpers;
 
@@ -25,11 +28,12 @@ public class TextHelper
 
         Assert.True(areEqual, output);
     }
-    public static void AssertEqualityWithDiffPlex(string expected, HandlerDescription handler, List<BehaviorDescription> behaviors)
-    {
-        (SourceText text, _)= TextEmitter.CreatePipelineText(handler, behaviors);
-        string actual = text.ToString();
 
+    public static void AssertEqualityWithDiffPlex(
+        string expected, 
+        string actual,
+        ITestOutputHelper output)
+    {
         string expectedNormalized = LineEndingsHelper.Normalize(expected)
             .Replace("%VERSION%", typeof(TextEmitter).Assembly.GetName().Version?.ToString());
 
@@ -38,8 +42,14 @@ public class TextHelper
         string unidiff = UnidiffRenderer.GenerateUnidiff(
             oldText: expectedNormalized, 
             newText: actual,
-            contextLines: 3
+            contextLines: 3,
+            ignoreWhitespace: false
         );
+
+        output.WriteLine("--- EXPECTED ---");
+        output.WriteLine(expected);
+        output.WriteLine("--- ACTUAL ---");
+        output.WriteLine(actual);
 
         Assert.Fail(unidiff);
     }

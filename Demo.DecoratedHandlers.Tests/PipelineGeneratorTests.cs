@@ -1,6 +1,9 @@
-﻿using Demo.DecoratedHandlers.Gen;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Demo.DecoratedHandlers.Gen;
 using Demo.DecoratedHandlers.Tests.Helpers;
 using Demo.DecoratedHandlers.Tests.Models;
+using Microsoft.CodeAnalysis.Text;
 using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.Tests;
@@ -49,7 +52,7 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
         await VerifyGenerationFrom<Snapshots.PartialBehavior.SourceDescription>();
     }
 
-    private static async Task VerifyGenerationFrom<TSourceDescription>()
+    private async Task VerifyGenerationFrom<TSourceDescription>()
         where TSourceDescription : SourceDescriptionBase, new()
     {
         SourceDescriptionBase description = new TSourceDescription();
@@ -64,19 +67,39 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
             foreach (var file in sourceFiles)
             {
                 CompilationHelper.AssertCompilation(file.Content);
-            } 
+            }
         }
 
         // text
         if (expectedFiles.Count > 0)
         {
+            var pipelines = new List<PipelineDescription>(description.Handlers.Count);
+
             for (int i = 0; i < description.Handlers.Count; i++)
             {
-                TextHelper.AssertEqualityWithDiffPlex(expectedFiles[i].Content, description.Handlers[i], description.Behaviors);
+                (SourceText text, var pipeline) = TextEmitter.CreatePipelineText(
+                    description.Handlers[i], description.Behaviors);
+
+                string actual = text.ToString();
+
+                AssertEquality(expectedFiles[i], actual);
+
+                pipelines.Add(pipeline);
             }
+
+            string actualContext = ContextEmitter.CreateText(pipelines).ToString();
+
+            AssertEquality(expectedFiles[^1], actualContext);
         }
 
         // generation
         await GenerationHelper.AssertGenerationEquality(sourceFiles, expectedFiles);
+    }
+
+    private void AssertEquality(TestFile expectedFile, string actual)
+    {
+        output.WriteLine("Asserting with the expected file: " + expectedFile.Name);
+
+        TextHelper.AssertEqualityWithDiffPlex(expectedFile.Content, actual, output);
     }
 }

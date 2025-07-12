@@ -10,5 +10,4 @@ public class FileDescription
 
     public string RelativePath { get; init; }
     public string GeneratedFileName { get; init; }
-    
 }

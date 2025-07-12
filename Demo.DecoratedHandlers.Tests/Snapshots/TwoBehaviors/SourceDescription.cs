@@ -23,7 +23,6 @@ public class SourceDescription : SourceDescriptionBase
             )
         );
 
-        SourceFiles.Add(DefaultSourceFile);
-        ExpectedFiles.Add(DefaultExpectedFile);
+        AddDefaultFiles();
     }
 }

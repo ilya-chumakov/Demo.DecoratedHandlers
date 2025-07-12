@@ -18,8 +18,7 @@ public class SourceDescription : SourceDescriptionBase
                 GetDisplayFullName<LogBehavior<string, string>>()
             )
         );
-
-        SourceFiles.Add(DefaultSourceFile);
-        ExpectedFiles.Add(DefaultExpectedFile);
+        
+        AddDefaultFiles();
     }
 }

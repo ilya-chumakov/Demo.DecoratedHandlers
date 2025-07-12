@@ -1,5 +1,7 @@
 ﻿// ReSharper disable InconsistentNaming
 
+using System;
+
 namespace Demo.DecoratedHandlers.Tests.Helpers;
 
 public static class LineEndingsHelper

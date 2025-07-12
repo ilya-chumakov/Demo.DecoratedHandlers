@@ -61,7 +61,12 @@ public class PipelineGenerator : IIncrementalGenerator
                 string filename = $"{handler.Name}_Pipeline{handler.PipelineSuffix}.g.cs";
                 (SourceText text, PipelineDescription pd) = TextEmitter.CreatePipelineText(handler, behaviors);
                 ctx.AddSource(filename, text);
+
+                pipelines.Add(pd);
             }
+
+            SourceText registration = ContextEmitter.CreateText(pipelines);
+            ctx.AddSource("PipelineContext.g.cs", registration);
         });
     }
 

@@ -1,4 +1,6 @@
-﻿using Demo.DecoratedHandlers.Gen;
+﻿using System;
+using System.Collections.Generic;
+using Demo.DecoratedHandlers.Gen;
 
 namespace Demo.DecoratedHandlers.Tests.Models;
 
@@ -9,6 +11,7 @@ public abstract class SourceDescriptionBase
     public List<BehaviorDescription> Behaviors { get; init; } = [];
     public List<FileDescription> SourceFiles { get; init; } = [];
     public List<FileDescription> ExpectedFiles { get; init; } = [];
+    public Dictionary<string, string> ReplaceRules { get; init; } = [];
     
     public static string GetFolder(Type type)
     {
@@ -17,7 +20,10 @@ public abstract class SourceDescriptionBase
     }
 
     public static FileDescription DefaultSourceFile { get; } = new("Source.cs", null);
-    public static FileDescription DefaultExpectedFile { get; } = new("Expected.cs", "BarHandler_Pipeline.g.cs");
+    public static FileDescription DefaultExpectedPipeline { get; } = 
+        new("ExpectedPipeline.cs", "BarHandler_Pipeline.g.cs");
+    public static FileDescription DefaultExpectedContext { get; } = 
+        new("ExpectedContext.cs", "PipelineContext.g.cs");
 
     protected static string GetDisplayFullName<TType>()
     {
@@ -33,5 +39,12 @@ public abstract class SourceDescriptionBase
         }
 
         return "global::" + type.FullName;
+    }
+
+    protected void AddDefaultFiles()
+    {
+        SourceFiles.Add(DefaultSourceFile);
+        ExpectedFiles.Add(DefaultExpectedPipeline);
+        ExpectedFiles.Add(DefaultExpectedContext);
     }
 }

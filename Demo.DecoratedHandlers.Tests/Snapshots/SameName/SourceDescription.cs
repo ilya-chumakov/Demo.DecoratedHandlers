@@ -20,6 +20,7 @@ public class SourceDescription : SourceDescriptionBase
         );
 
         SourceFiles.Add(DefaultSourceFile);
-        ExpectedFiles.Add(new FileDescription("Expected.cs", "Foo_Pipeline.g.cs"));
+        ExpectedFiles.Add(new FileDescription("ExpectedPipeline.cs", "Foo_Pipeline.g.cs"));
+        ExpectedFiles.Add(DefaultExpectedContext);
     }
 }

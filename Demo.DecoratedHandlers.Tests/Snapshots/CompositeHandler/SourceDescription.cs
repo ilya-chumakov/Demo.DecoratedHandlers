@@ -12,7 +12,17 @@ public class SourceDescription : SourceDescriptionBase
             FullName: GetDisplayFullName<BarHandler>(),
             ContainingNamespace: typeof(BarHandler).Namespace,
             InputFullName: GetDisplayFullName<Alpha>(),
-            OutputFullName: GetDisplayFullName<Omega>()));
+            OutputFullName: GetDisplayFullName<Omega>())
+        );
+        
+        Handlers.Add(new(
+            Name: nameof(BarHandler),
+            FullName: GetDisplayFullName<BarHandler>(),
+            ContainingNamespace: typeof(BarHandler).Namespace,
+            InputFullName: GetDisplayFullName<Beta>(),
+            OutputFullName: GetDisplayFullName<Omega>(),
+            PipelineSuffix: "_1")
+        );
         
         Behaviors.Add(new BehaviorDescription(
                 GetDisplayFullName<LogBehavior<string, string>>()
@@ -20,7 +30,9 @@ public class SourceDescription : SourceDescriptionBase
         );
 
         SourceFiles.Add(DefaultSourceFile);
-        ExpectedFiles.Add(new FileDescription("ExpectedAlpha.cs", "BarHandler_Pipeline.g.cs"));
-        ExpectedFiles.Add(new FileDescription("ExpectedBeta.cs", "BarHandler_Pipeline_1.g.cs"));
+        ExpectedFiles.Add(new FileDescription("ExpectedPipelineAlpha.cs", "BarHandler_Pipeline.g.cs"));
+        ExpectedFiles.Add(new FileDescription("ExpectedPipelineBeta.cs", "BarHandler_Pipeline_1.g.cs"));
+
+        ExpectedFiles.Add(DefaultExpectedContext);
     }
 }

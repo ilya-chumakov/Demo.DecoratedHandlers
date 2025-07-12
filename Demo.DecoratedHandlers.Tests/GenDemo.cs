@@ -1,4 +1,6 @@
-﻿using Bodrocode.Xunit.Logs;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Bodrocode.Xunit.Logs;
 using Demo.DecoratedHandlers.Gen;
 using FluentAssertions;
 using Meziantou.Extensions.Logging.InMemory;

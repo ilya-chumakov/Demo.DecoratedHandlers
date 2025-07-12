@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Demo.DecoratedHandlers.Gen;
 using Demo.DecoratedHandlers.Tests.Models;
 using Microsoft.CodeAnalysis.Text;
@@ -17,7 +19,7 @@ public static class GenerationHelper
             test.TestState.Sources.Add((filename: "SomeUnusedName.cs", content: file.Content));
         }
 
-        foreach (var result in expectedFiles)
+        foreach (TestFile result in expectedFiles)
         {
             test.TestState.GeneratedSources.Add((
                 sourceGeneratorType: typeof(PipelineGenerator),

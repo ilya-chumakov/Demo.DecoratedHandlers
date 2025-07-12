@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Demo.DecoratedHandlers.Abstractions;
 
@@ -38,18 +37,5 @@ public class BarHandlerPipeline_1(IServiceProvider provider) : InterfaceAlias
         DelegateAlias f0 = () => b0.HandleAsync(input, original, ct);
 
         return f0();
-    }
-}
-
-internal static class ServiceCollectionExtensions_BarHandlerPipeline_1
-{
-    [RegisterThis]
-    internal static void ReplaceHandlerWithPipeline(
-        this IServiceCollection services)
-    {
-        services.ReplaceWithPipeline<
-            InterfaceAlias,
-            global::Demo.DecoratedHandlers.Tests.Snapshots.CompositeHandler.BarHandler,
-            BarHandlerPipeline_1>();
     }
 }
