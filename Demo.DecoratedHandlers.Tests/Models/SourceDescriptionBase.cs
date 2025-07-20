@@ -22,8 +22,8 @@ public abstract class SourceDescriptionBase
     public static FileDescription DefaultSourceFile { get; } = new("Source.cs", null);
     public static FileDescription DefaultExpectedPipeline { get; } = 
         new("ExpectedPipeline.cs", "BarHandler_Pipeline.g.cs");
-    public static FileDescription DefaultExpectedContext { get; } = 
-        new("ExpectedContext.cs", "PipelineContext.g.cs");
+    public static FileDescription DefaultExpectedRegistry { get; } = 
+        new("ExpectedRegistry.cs", "PipelineRegistry.g.cs");
 
     protected static string GetDisplayFullName<TType>()
     {
@@ -45,6 +45,6 @@ public abstract class SourceDescriptionBase
     {
         SourceFiles.Add(DefaultSourceFile);
         ExpectedFiles.Add(DefaultExpectedPipeline);
-        ExpectedFiles.Add(DefaultExpectedContext);
+        ExpectedFiles.Add(DefaultExpectedRegistry);
     }
 }

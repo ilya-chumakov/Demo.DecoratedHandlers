@@ -8,7 +8,7 @@ namespace Tests.CompositeHandler;
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Demo.DecoratedHandlers.Gen", "%VERSION%")]
 [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Always)]
 
-public class PipelineContext : IPipelineContext
+public class PipelineRegistry : IPipelineRegistry
 {
     public void Apply(IServiceCollection services)
     {

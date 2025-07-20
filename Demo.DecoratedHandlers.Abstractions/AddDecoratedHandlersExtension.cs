@@ -8,13 +8,13 @@ namespace Demo.DecoratedHandlers.Abstractions;
 // InternalsVisibleTo won't work if directly called from another assembly
 public static class AddDecoratedHandlersExtension
 {
-    private static readonly Type ContextType = typeof(IPipelineContext);
+    private static readonly Type RegistryType = typeof(IPipelineRegistry);
 
-    public static void AddDecoratedHandlers<TPipelineContext>(this IServiceCollection services)
-        where TPipelineContext : IPipelineContext, new()
+    public static void AddDecoratedHandlers<TPipelineRegistry>(this IServiceCollection services)
+        where TPipelineRegistry : IPipelineRegistry, new()
     {
-        IPipelineContext context = new TPipelineContext();
-        context.Apply(services);
+        IPipelineRegistry registry = new TPipelineRegistry();
+        registry.Apply(services);
     }
 
     public static void AddDecoratedHandlers(this IServiceCollection services,
@@ -34,7 +34,7 @@ public static class AddDecoratedHandlersExtension
         foreach (Assembly assembly in assemblies)
         {
             var types = assembly.GetTypes().Where(type => 
-                ContextType.IsAssignableFrom(type) && type != ContextType)
+                RegistryType.IsAssignableFrom(type) && type != RegistryType)
                 ;
             
             foreach (Type type in types)
@@ -49,7 +49,7 @@ public static class AddDecoratedHandlersExtension
     {
         if (contextType == null) return true;
 
-        var method = contextType.GetMethod(nameof(IPipelineContext.Apply));
+        var method = contextType.GetMethod(nameof(IPipelineRegistry.Apply));
 
         if (method == null) return true;
 

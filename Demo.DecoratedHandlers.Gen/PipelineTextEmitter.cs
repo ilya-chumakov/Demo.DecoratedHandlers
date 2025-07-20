@@ -19,12 +19,12 @@ public record PipelineDescription(
     HandlerDescription HandlerDescription,
     string FullName);
 
-public static class TextEmitter
+public static class PipelineTextEmitter
 {
-    public static readonly AssemblyName EmitterAssemblyName = typeof(TextEmitter).Assembly.GetName();
+    public static readonly AssemblyName EmitterAssemblyName = typeof(PipelineTextEmitter).Assembly.GetName();
     public const string NamespacePrefix = "FancyGlobalPrefix";
 
-    public static (SourceText text, PipelineDescription pd) CreatePipelineText(
+    public static (SourceText text, PipelineDescription pd) CreateSourceText(
         HandlerDescription handler,
         IReadOnlyList<BehaviorDescription> behaviors)
     {

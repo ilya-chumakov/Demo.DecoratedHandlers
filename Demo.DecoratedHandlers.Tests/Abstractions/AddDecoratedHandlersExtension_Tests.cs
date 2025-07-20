@@ -12,16 +12,16 @@ public class AddDecoratedHandlersExtension_ReflectionScan_Tests
     public void AddDecoratedHandlers_Default_OK()
     {
         //Arrange
-        Assert.False(DummyContext.IsInvoked);
+        Assert.False(DummyRegistry.IsInvoked);
 
         //Act
-        services.AddDecoratedHandlers([typeof(DummyContext).Assembly]);
+        services.AddDecoratedHandlers([typeof(DummyRegistry).Assembly]);
 
         //Assert
-        Assert.True(DummyContext.IsInvoked);
+        Assert.True(DummyRegistry.IsInvoked);
     }
 
-    private class DummyContext : IPipelineContext
+    private class DummyRegistry : IPipelineRegistry
     {
         public static bool IsInvoked { get; set; }
 
@@ -41,16 +41,16 @@ public class AddDecoratedHandlersExtension_GenericParam_Tests
     public void AddDecoratedHandlers_Default_OK()
     {
         //Arrange
-        Assert.False(DummyContext.IsInvoked);
+        Assert.False(DummyRegistry.IsInvoked);
 
         //Act
-        services.AddDecoratedHandlers<DummyContext>();
+        services.AddDecoratedHandlers<DummyRegistry>();
 
         //Assert
-        Assert.True(DummyContext.IsInvoked);
+        Assert.True(DummyRegistry.IsInvoked);
     }
 
-    private class DummyContext : IPipelineContext
+    private class DummyRegistry : IPipelineRegistry
     {
         public static bool IsInvoked { get; set; }
 

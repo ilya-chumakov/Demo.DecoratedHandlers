@@ -2,7 +2,7 @@
 
 namespace Demo.DecoratedHandlers.Abstractions;
 
-public interface IPipelineContext
+public interface IPipelineRegistry
 {
     public void Apply(IServiceCollection services);
 }

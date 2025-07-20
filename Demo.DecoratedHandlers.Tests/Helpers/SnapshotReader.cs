@@ -9,7 +9,7 @@ namespace Demo.DecoratedHandlers.Tests.Helpers;
 public static class SnapshotReader
 {
     private static readonly string GeneratorAssemblyVersion =
-        typeof(TextEmitter).Assembly.GetName().Version?.ToString();
+        typeof(PipelineTextEmitter).Assembly.GetName().Version?.ToString();
 
     public static async Task<List<TestFile>> ReadAsync(
         string folderName,
@@ -39,7 +39,7 @@ public static class SnapshotReader
             .Replace("%VERSION%", GeneratorAssemblyVersion)
             .Replace(
                 $"namespace Tests.{folderName};", 
-                $"namespace {TextEmitter.NamespacePrefix};"
+                $"namespace {PipelineTextEmitter.NamespacePrefix};"
                 )
             ;
 

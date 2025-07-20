@@ -77,7 +77,7 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
 
             for (int i = 0; i < description.Handlers.Count; i++)
             {
-                (SourceText text, var pipeline) = TextEmitter.CreatePipelineText(
+                (SourceText text, var pipeline) = PipelineTextEmitter.CreateSourceText(
                     description.Handlers[i], description.Behaviors);
 
                 string actual = text.ToString();
@@ -87,7 +87,7 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
                 pipelines.Add(pipeline);
             }
 
-            string actualContext = ContextEmitter.CreateText(pipelines).ToString();
+            string actualContext = RegistryTextEmitter.CreateSourceText(pipelines).ToString();
 
             AssertEquality(expectedFiles[^1], actualContext);
         }

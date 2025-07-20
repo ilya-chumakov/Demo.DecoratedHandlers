@@ -33,6 +33,6 @@ public class SourceDescription : SourceDescriptionBase
         ExpectedFiles.Add(new FileDescription("ExpectedPipelineAlpha.cs", "BarHandler_Pipeline.g.cs"));
         ExpectedFiles.Add(new FileDescription("ExpectedPipelineBeta.cs", "BarHandler_Pipeline_1.g.cs"));
 
-        ExpectedFiles.Add(DefaultExpectedContext);
+        ExpectedFiles.Add(DefaultExpectedRegistry);
     }
 }
