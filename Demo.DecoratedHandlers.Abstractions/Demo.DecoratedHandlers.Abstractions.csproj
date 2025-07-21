@@ -6,13 +6,15 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <!--<ItemGroup>
+  <ItemGroup>
     <InternalsVisibleTo Include="Demo.DecoratedHandlers.Tests" />
-    <InternalsVisibleTo Include="Demo.DecoratedHandlers.Gen" />
-  </ItemGroup>-->
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
+    <!--optional stuff for startup validation and logging -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.7" />
   </ItemGroup>
 
 </Project>

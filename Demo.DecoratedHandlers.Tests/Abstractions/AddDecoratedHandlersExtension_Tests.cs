@@ -15,7 +15,10 @@ public class AddDecoratedHandlersExtension_ReflectionScan_Tests
         Assert.False(DummyRegistry.IsInvoked);
 
         //Act
-        services.AddDecoratedHandlers([typeof(DummyRegistry).Assembly]);
+        services.AddDecoratedHandlers(options =>
+        {
+            options.ScanAssemblies = [typeof(DummyRegistry).Assembly];
+        });
 
         //Assert
         Assert.True(DummyRegistry.IsInvoked);

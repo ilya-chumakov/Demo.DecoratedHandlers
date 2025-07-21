@@ -1,59 +1,86 @@
-﻿using System.Diagnostics;
+﻿using System.Reflection;
+using Demo.DecoratedHandlers.WebApiRoot;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Reflection;
 
 namespace Demo.DecoratedHandlers.Abstractions;
+
+public class DemoOptions
+{
+    public IReadOnlyCollection<Assembly> ScanAssemblies = null;
+}
 
 // InternalsVisibleTo won't work if directly called from another assembly
 public static class AddDecoratedHandlersExtension
 {
     private static readonly Type RegistryType = typeof(IPipelineRegistry);
+    private static readonly RegistrationVerifier Verifier;
+    public static readonly DelayedLog Log = new();
 
-    public static void AddDecoratedHandlers<TPipelineRegistry>(this IServiceCollection services)
+    static AddDecoratedHandlersExtension()
+    {
+        Verifier = new RegistrationVerifier(Log);
+    }
+
+    public static void AddDecoratedHandlers<TPipelineRegistry>(
+        this IServiceCollection services)
         where TPipelineRegistry : IPipelineRegistry, new()
     {
         IPipelineRegistry registry = new TPipelineRegistry();
         registry.Apply(services);
+        Verifier.VerifyServices(services);
+        services.AddHostedService<DelayedLogHostedService>();
     }
 
-    public static void AddDecoratedHandlers(this IServiceCollection services,
-        IEnumerable<Assembly> scanAssemblies = null)
+    public static void AddDecoratedHandlers(
+        this IServiceCollection services,
+        Action<DemoOptions> setup = null)
     {
-        // todo any better ideas for speeding up this assembly scan?
-        var assemblies = scanAssemblies ?? AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => !a.IsDynamic)
-            .Where(x => !x.FullName.StartsWith("Microsoft"))
-            .Where(x => !x.FullName.StartsWith("System"))
-            .Where(x => !x.FullName.StartsWith("netstandard"))
-            .Where(x => !x.FullName.StartsWith("JetBrains"))
-            .Where(x => !x.FullName.StartsWith("xunit"));
+        var options = new DemoOptions();
+        setup?.Invoke(options);
+
+        IEnumerable<Assembly> assemblies = options.ScanAssemblies;
+
+        if (options.ScanAssemblies is not { Count: > 0 })
+        {
+            // todo any better ideas for speeding up this assembly scan?
+            assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.IsDynamic)
+                .Where(x => !x.FullName.StartsWith("Microsoft"))
+                .Where(x => !x.FullName.StartsWith("System"))
+                .Where(x => !x.FullName.StartsWith("netstandard"))
+                .Where(x => !x.FullName.StartsWith("JetBrains"))
+                .Where(x => !x.FullName.StartsWith("xunit"));
+        }
 
         object[] parameters = [services];
+        List<Type> foundTypes = new();
 
         foreach (Assembly assembly in assemblies)
         {
-            var types = assembly.GetTypes().Where(type => 
-                RegistryType.IsAssignableFrom(type) && type != RegistryType)
-                ;
-            
-            foreach (Type type in types)
+            IEnumerable<Type> types = assembly.GetTypes().Where(type =>
+                RegistryType.IsAssignableFrom(type) && type != RegistryType);
+
+            foreach (Type registryType in types)
             {
-                InvokeTargetMethod(type, parameters);
+                InvokeApplyMethod(registryType, parameters);
+                foundTypes.Add(registryType);
             }
         }
-        // todo emit warning (how?) if not "exactly one" type is found 
+
+        Verifier.VerifyRegistryCount(foundTypes);
+        Verifier.VerifyServices(services);
+        services.AddHostedService<DelayedLogHostedService>();
     }
 
-    private static bool InvokeTargetMethod(Type contextType, object[] parameters)
+    private static bool InvokeApplyMethod(Type registryType, object[] parameters)
     {
-        if (contextType == null) return true;
+        if (registryType == null) return true;
 
-        var method = contextType.GetMethod(nameof(IPipelineRegistry.Apply));
+        var method = registryType.GetMethod(nameof(IPipelineRegistry.Apply));
 
         if (method == null) return true;
 
-        object context = Activator.CreateInstance(contextType);
+        object context = Activator.CreateInstance(registryType);
 
         method.Invoke(context, parameters);
 

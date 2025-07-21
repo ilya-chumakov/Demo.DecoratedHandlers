@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 // ReSharper disable PreferConcreteValueOverDefault
 // ReSharper disable RedundantLambdaParameterType
+#pragma warning disable IDE0305
 
 namespace Demo.DecoratedHandlers.Gen;
 
