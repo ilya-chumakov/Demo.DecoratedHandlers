@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Demo.DecoratedHandlers.Gen;
 
+//todo it's useful, make conditional? how?
+//ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
 public static class DebugEmitter
 {
     public static SourceText CreateStatistics(

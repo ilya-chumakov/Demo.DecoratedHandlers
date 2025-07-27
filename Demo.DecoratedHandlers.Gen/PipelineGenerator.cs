@@ -49,9 +49,6 @@ public class PipelineGenerator : IIncrementalGenerator
             // nothing to do now if no behaviors
             if (behaviors.Length == 0) return;
 
-            //todo it's useful, make conditional? how?
-            //ctx.AddSource("Stats.g.cs", DebugEmitter.CreateStatistics(handlers, behaviors));
-
             // distinct to support partial declarations
             behaviors = behaviors.Distinct().ToImmutableArray();
             handlers = handlers.Distinct().ToImmutableArray();
@@ -69,6 +66,53 @@ public class PipelineGenerator : IIncrementalGenerator
             SourceText registration = RegistryTextEmitter.CreateSourceText(pipelines);
             ctx.AddSource("PipelineRegistry.g.cs", registration);
         });
+    }
+
+    private static Func<GeneratorSyntaxContext, CancellationToken, IEnumerable<HandlerDescription>> TransformHandlers()
+    {
+        return static (GeneratorSyntaxContext ctx, CancellationToken _) =>
+        {
+            if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
+                return default;
+
+            INamedTypeSymbol handler = ctx.SemanticModel.GetDeclaredSymbol(syntax);
+
+            if (handler is not { IsGenericType: false, IsAnonymousType: false } ||
+                handler.AllInterfaces is not { Length: > 0 })
+                return default;
+
+            // GetTypeByMetadataName call to get interface symbol for filtering
+            // maybe less efficient since it may perform full assembly scan
+
+            IEnumerable<INamedTypeSymbol> interfaces = handler.AllInterfaces.Where(i =>
+                i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
+                i.Name == AbstractionsMetadata.RequestInterfaceSymbolName);
+
+            List<HandlerDescription> descriptions = [];
+
+            // todo ensure stable order only on debug/testing
+            interfaces = interfaces.OrderBy(x => x.TypeArguments[0].Name!);
+
+            int index = 0;
+            foreach (INamedTypeSymbol interf in interfaces)
+            {
+                string pipelineSuffix = index == 0 ? string.Empty : '_' + index.ToString();
+                index++;
+
+                // FYI: use Name property for short name
+                // todo do we really need to call ToDisplayString?
+
+                var description = new HandlerDescription(
+                    Name: handler.Name,
+                    FullName: handler.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                    ContainingNamespace: handler.ContainingNamespace.ToDisplayString(),
+                    InputFullName: interf.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), 
+                    OutputFullName: interf.TypeArguments[1].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), 
+                    PipelineSuffix: pipelineSuffix);
+                descriptions.Add(description);
+            }
+            return descriptions;
+        };
     }
 
     private static Func<GeneratorSyntaxContext, CancellationToken, BehaviorDescription> TransformBehaviors()
@@ -98,47 +142,4 @@ public class PipelineGenerator : IIncrementalGenerator
         };
     }
 
-    private static Func<GeneratorSyntaxContext, CancellationToken, IEnumerable<HandlerDescription>> TransformHandlers()
-    {
-        return static (GeneratorSyntaxContext ctx, CancellationToken _) =>
-        {
-            if (ctx.Node is not ClassDeclarationSyntax syntax || syntax.BaseList is null)
-                return default;
-
-            INamedTypeSymbol handler = ctx.SemanticModel.GetDeclaredSymbol(syntax);
-
-            if (handler is not { IsGenericType: false, IsAnonymousType: false } ||
-                handler.AllInterfaces is not { Length: > 0 })
-                return default;
-
-            IEnumerable<INamedTypeSymbol> interfaces = handler.AllInterfaces.Where(i =>
-                i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
-                i.Name == AbstractionsMetadata.RequestInterfaceSymbolName);
-
-            List<HandlerDescription> descriptions = [];
-
-            // todo ensure stable order only on debug/testing
-            interfaces = interfaces.OrderBy(x => x.TypeArguments[0].Name!);
-
-            int index = 0;
-            foreach (var interf in interfaces)
-            {
-                string pipelineSuffix = index == 0 ? string.Empty : '_' + index.ToString();
-                index++;
-
-                // FYI: use Name property for short name
-                // todo do we really need to call ToDisplayString?
-
-                var description = new HandlerDescription(
-                    Name: handler.Name,
-                    FullName: handler.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    ContainingNamespace: handler.ContainingNamespace.ToDisplayString(),
-                    InputFullName: interf.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), 
-                    OutputFullName: interf.TypeArguments[1].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), 
-                    PipelineSuffix: pipelineSuffix);
-                descriptions.Add(description);
-            }
-            return descriptions;
-        };
-    }
 }
