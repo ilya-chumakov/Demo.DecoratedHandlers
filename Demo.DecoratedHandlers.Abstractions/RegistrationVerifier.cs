@@ -21,7 +21,7 @@ internal class RegistrationVerifier(DelayedLog log)
         }
         else
         {
-            string types = string.Join("," + Environment.NewLine, registryTypes.Select(x => x.FullName));
+            string types = string.Join("," + Environment.NewLine, registryTypes.Select(x => x.ToString()));
 
             string message =
                 "More than one registry was found. Check for multiple registry implementations. Found the types:"
@@ -56,7 +56,7 @@ internal class RegistrationVerifier(DelayedLog log)
 
         if (duplicateInputTypes.Any())
         {
-            string types = string.Join("," + Environment.NewLine, duplicateInputTypes.Select(x => x.FullName));
+            string types = string.Join("," + Environment.NewLine, duplicateInputTypes.Select(x => x.ToString()));
 
             string message =
                 "More than one handler with the same input type was found. " +

@@ -12,7 +12,7 @@ public class DemoOptions
 // InternalsVisibleTo won't work if directly called from another assembly
 public static class AddDecoratedHandlersExtension
 {
-    private static readonly Type RegistryType = typeof(IPipelineRegistry);
+    private static readonly Type RegistryInterface = typeof(IPipelineRegistry);
     private static readonly RegistrationVerifier Verifier;
     public static readonly DelayedLog Log = new();
 
@@ -59,7 +59,7 @@ public static class AddDecoratedHandlersExtension
         foreach (Assembly assembly in assemblies)
         {
             IEnumerable<Type> types = assembly.GetTypes().Where(type =>
-                RegistryType.IsAssignableFrom(type) && type != RegistryType);
+                RegistryInterface.IsAssignableFrom(type) && type != RegistryInterface);
 
             foreach (Type registryType in types)
             {
