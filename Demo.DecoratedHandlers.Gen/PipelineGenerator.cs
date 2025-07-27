@@ -41,8 +41,7 @@ public class PipelineGenerator : IIncrementalGenerator
 
         var combination = handlers.Combine(behaviors);
 
-        //todo RegisterImplementationSourceOutput?
-        context.RegisterSourceOutput(combination, static (ctx, symbols) =>
+        context.RegisterImplementationSourceOutput(combination, static (ctx, symbols) =>
         {
             var (handlers, behaviors) = symbols;
 

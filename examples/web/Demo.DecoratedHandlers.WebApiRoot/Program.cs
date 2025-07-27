@@ -10,6 +10,7 @@ services.AddOpenApi();
 services.AddTransient<IRequestHandler<FooQuery, FooResponse>, FooQueryHandler>();
 //services.AddPipelines();
 services.AddDecoratedHandlers();
+services.AddDecoratedHandlers<FancyGlobalPrefix.PipelineRegistry>();
 //services.AddHostedService<DelayedLogHostedService>();
 var app = builder.Build();
 

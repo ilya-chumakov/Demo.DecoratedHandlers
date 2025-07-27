@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Demo.DecoratedHandlers.Gen" Version="1.0.14" />
+    <PackageReference Include="Demo.DecoratedHandlers.Gen" Version="1.0.15" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
   </ItemGroup>
 

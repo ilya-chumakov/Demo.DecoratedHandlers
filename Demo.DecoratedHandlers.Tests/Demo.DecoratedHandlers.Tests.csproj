@@ -30,8 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.DecoratedHandlers.BarDomain\Demo.DecoratedHandlers.BarDomain.csproj" />
-    <ProjectReference Include="..\Demo.DecoratedHandlers.FooDomain\Demo.DecoratedHandlers.FooDomain.csproj" />
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj" />
     <ProjectReference Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj" />
   </ItemGroup>
 
@@ -46,13 +45,5 @@
       <Compile Update="Snapshots\**\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EditorConfigFiles Remove="D:\Src\Drafts\Demo.DecoratedHandlers\Demo.DecoratedHandlers.Tests\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="D:\Src\Drafts\Demo.DecoratedHandlers\Demo.DecoratedHandlers.Tests\.editorconfig" />
   </ItemGroup>
 </Project>
