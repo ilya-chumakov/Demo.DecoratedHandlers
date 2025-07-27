@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		restore.bat = restore.bat
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Internal", "Demo.DecoratedHandlers.Internal\Demo.DecoratedHandlers.Internal.csproj", "{37CE0771-8E4F-41ED-A69B-CFA1ADE0BE06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B164ACF6-DDCA-4281-9519-4E757B1127BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37CE0771-8E4F-41ED-A69B-CFA1ADE0BE06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37CE0771-8E4F-41ED-A69B-CFA1ADE0BE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37CE0771-8E4F-41ED-A69B-CFA1ADE0BE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37CE0771-8E4F-41ED-A69B-CFA1ADE0BE06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

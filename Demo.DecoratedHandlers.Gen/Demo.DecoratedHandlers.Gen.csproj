@@ -24,17 +24,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj" PrivateAssets="all" />
+    <None Remove="bin\Release\netstandard2.0\\Demo.DecoratedHandlers.Gen.dll" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Pack the generator dll in the analyzers/dotnet/cs path -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Remove="bin\Release\netstandard2.0\\Demo.DecoratedHandlers.Abstractions.dll" />
 
     <!-- Pack the attributes dll in the analyzers/dotnet/cs path --><!--
     <None Include="$(OutputPath)\Demo.DecoratedHandlers.Abstractions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />-->
 
     <!-- Pack the attributes dll in the lib\netstandard2.0 path -->
     <None Include="$(OutputPath)\Demo.DecoratedHandlers.Abstractions.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Internal\Demo.DecoratedHandlers.Internal.csproj" />
   </ItemGroup>
 </Project>
