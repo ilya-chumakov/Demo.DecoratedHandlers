@@ -8,33 +8,33 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.DecoratedHandlers.Tests.Abstractions;
 
-public class PipelineRegistration_MultiHandler_Tests
+public class PipelineRegistration_CompositeHandler_Tests
 {
     // ReSharper disable once InconsistentNaming
     private readonly ServiceCollection services = new();
 
-    [Fact(Skip = "This is an assumption on how to register a multi handler. Generation for this case is not implemented yet")]
+    [Fact]
     public void ReplaceWithPipeline_Default_OK()
     {
         //Arrange
-        services.AddTransient<IRequestHandler<FooInput, FooOutput>, MultiHandler>();
-        services.AddTransient<IRequestHandler<BarInput, BarOutput>, MultiHandler>();
+        services.AddTransient<IRequestHandler<FooInput, FooOutput>, CompositeHandler>();
+        services.AddTransient<IRequestHandler<BarInput, BarOutput>, CompositeHandler>();
 
         //Act
-        services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, MultiHandler, FooHandlerPipeline>();
-        services.ReplaceWithPipeline<IRequestHandler<BarInput, BarOutput>, MultiHandler, BarHandlerPipeline>();
+        services.ReplaceWithPipeline<IRequestHandler<FooInput, FooOutput>, CompositeHandler, FooHandlerPipeline>();
+        services.ReplaceWithPipeline<IRequestHandler<BarInput, BarOutput>, CompositeHandler, BarHandlerPipeline>();
 
         //Assert
         //...Foo
-        For<IRequestHandler<FooInput, FooOutput>, MultiHandler>().Should().BeEmpty();
-        For<MultiHandler, MultiHandler>().Should().ContainSingle();
+        For<IRequestHandler<FooInput, FooOutput>, CompositeHandler>().Should().BeEmpty();
+        For<CompositeHandler, CompositeHandler>().Should().ContainSingle();
         
         For<IRequestHandler<FooInput, FooOutput>, FooHandlerPipeline>().Should().ContainSingle();
         For<FooHandlerPipeline, FooHandlerPipeline>().Should().BeEmpty();
         
         //...Bar
-        For<IRequestHandler<BarInput, BarOutput>, MultiHandler>().Should().BeEmpty();
-        For<MultiHandler, MultiHandler>().Should().ContainSingle();
+        For<IRequestHandler<BarInput, BarOutput>, CompositeHandler>().Should().BeEmpty();
+        For<CompositeHandler, CompositeHandler>().Should().ContainSingle();
         
         For<IRequestHandler<BarInput, BarOutput>, BarHandlerPipeline>().Should().ContainSingle();
         For<BarHandlerPipeline, BarHandlerPipeline>().Should().BeEmpty();
@@ -57,7 +57,7 @@ public class PipelineRegistration_MultiHandler_Tests
     private record BarInput;
     private record BarOutput(int Id);
 
-    private class MultiHandler 
+    private class CompositeHandler 
         : IRequestHandler<FooInput, FooOutput>
         , IRequestHandler<BarInput, BarOutput>
     {
