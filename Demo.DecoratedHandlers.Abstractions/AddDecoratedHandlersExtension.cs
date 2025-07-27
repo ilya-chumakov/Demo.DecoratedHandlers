@@ -28,6 +28,7 @@ public static class AddDecoratedHandlersExtension
         IPipelineRegistry registry = new TPipelineRegistry();
         registry.Apply(services);
         Verifier.VerifyServices(services);
+        Verifier.VerifyRegistry(registry);
         services.AddHostedService<DelayedLogHostedService>();
     }
 
@@ -62,8 +63,9 @@ public static class AddDecoratedHandlersExtension
 
             foreach (Type registryType in types)
             {
-                InvokeApplyMethod(registryType, parameters);
+                var registry = InvokeApplyMethod(registryType, parameters);
                 foundTypes.Add(registryType);
+                Verifier.VerifyRegistry(registry);
             }
         }
 
@@ -72,18 +74,18 @@ public static class AddDecoratedHandlersExtension
         services.AddHostedService<DelayedLogHostedService>();
     }
 
-    private static bool InvokeApplyMethod(Type registryType, object[] parameters)
+    private static IPipelineRegistry InvokeApplyMethod(Type registryType, object[] parameters)
     {
-        if (registryType == null) return true;
+        if (registryType == null) return null;
 
         var method = registryType.GetMethod(nameof(IPipelineRegistry.Apply));
 
-        if (method == null) return true;
+        if (method == null) return null;
 
-        object context = Activator.CreateInstance(registryType);
+        object registry = Activator.CreateInstance(registryType);
 
-        method.Invoke(context, parameters);
+        method.Invoke(registry, parameters);
 
-        return false;
+        return registry as IPipelineRegistry;
     }
 }

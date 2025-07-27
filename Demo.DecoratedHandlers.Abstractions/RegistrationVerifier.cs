@@ -24,7 +24,7 @@ internal class RegistrationVerifier(DelayedLog log)
             string types = string.Join("," + Environment.NewLine, registryTypes.Select(x => x.FullName));
 
             string message =
-                "More than one registry was found. Check for multiple registry implementations. Found types:"
+                "More than one registry was found. Check for multiple registry implementations. Found the types:"
                 + Environment.NewLine
                 + types;
 
@@ -44,5 +44,33 @@ internal class RegistrationVerifier(DelayedLog log)
                 logger.LogWarning("No pipelines registered. Check if a request handler is declared. " +
                                   "Check the generated registry's code to ensure the handler is found."));
         }
+
+        Type[] duplicateInputTypes = services
+            .Where(sd => sd.ServiceType.IsGenericType &&
+                         sd.ServiceType.GetGenericTypeDefinition() == typeof(IRequestHandler<,>))
+            .Select(sd => sd.ServiceType.GetGenericArguments()[0])
+            .GroupBy(type => type)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToArray();
+
+        if (duplicateInputTypes.Any())
+        {
+            string types = string.Join("," + Environment.NewLine, duplicateInputTypes.Select(x => x.FullName));
+
+            string message =
+                "More than one handler with the same input type was found. " +
+                "While it would work, using an input only once is strongly recommended for clarity and readability. " +
+                "Found the types:"
+                + Environment.NewLine
+                + types;
+
+            log.Add(logger => logger.LogWarning(message));
+        }
+    }
+
+    public void VerifyRegistry(IPipelineRegistry registry)
+    {
+        //todo
     }
 }

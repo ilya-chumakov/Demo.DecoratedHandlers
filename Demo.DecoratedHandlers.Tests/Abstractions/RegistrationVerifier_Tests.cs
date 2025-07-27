@@ -55,15 +55,38 @@ public class RegistrationVerifier_Tests
         Assert.Equal(0, _log.Count());
     }
 
-    private record Foo;
+    [Fact]
+    public void VerifyServices_HandlerWithTheSameInput_ProducesLogs()
+    {
+        //Arrange
+        _services.AddTransient<IRequestHandler<Foo, Bar>, FooBarHandler>();
+        _services.AddTransient<IRequestHandler<Foo, Gamma>, DuplicateInputHandler>();
+        RegistrationVerifier verifier = new(_log);
 
+        //Act
+        verifier.VerifyServices(_services);
+
+        //Assert
+        Assert.Equal(1, _log.Count());
+    }
+
+    private record Foo;
     private record Bar;
+    private record Gamma;
 
     private class FooBarHandler : IRequestHandler<Foo, Bar>
     {
         public Task<Bar> HandleAsync(Foo input, CancellationToken ct = default)
         {
             return Task.FromResult(new Bar());
+        }
+    }
+
+    private class DuplicateInputHandler : IRequestHandler<Foo, Gamma>
+    {
+        public Task<Gamma> HandleAsync(Foo input, CancellationToken ct = default)
+        {
+            return Task.FromResult(new Gamma());
         }
     }
 }
