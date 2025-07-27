@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Demo.DecoratedHandlers.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers.Abstractions;
+namespace Demo.DecoratedHandlers.Gen;
 
 // shallow checks, room for improvement
 internal class RegistrationVerifier(DelayedLog log)

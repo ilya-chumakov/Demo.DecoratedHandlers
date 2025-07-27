@@ -1,7 +1,7 @@
 using Demo.DecoratedHandlers.Abstractions;
 using Demo.DecoratedHandlers.BarDomain;
 using Demo.DecoratedHandlers.FooDomain;
-using Microsoft.Extensions.DependencyInjection;
+using Demo.DecoratedHandlers.Gen;
 
 var builder = WebApplication.CreateBuilder(args);
 

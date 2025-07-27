@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using Demo.DecoratedHandlers.WebApiRoot;
+using Demo.DecoratedHandlers.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Demo.DecoratedHandlers.Abstractions;
+namespace Demo.DecoratedHandlers.Gen;
 
 public class DemoOptions
 {

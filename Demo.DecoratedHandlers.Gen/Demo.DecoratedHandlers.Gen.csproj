@@ -12,7 +12,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!--<IncludeBuildOutput>true</IncludeBuildOutput>-->
     <IncludeBuildOutput>true</IncludeBuildOutput>
-    <Version>1.0.15</Version>
+    <Version>1.0.18</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference 
+      Include="..\Demo.DecoratedHandlers.Internal\Demo.DecoratedHandlers.Internal.csproj" 
+      PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="bin\Release\netstandard2.0\\Demo.DecoratedHandlers.Gen.dll" />
   </ItemGroup>
 
@@ -31,15 +37,13 @@
     <!-- Pack the generator dll in the analyzers/dotnet/cs path -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Remove="bin\Release\netstandard2.0\\Demo.DecoratedHandlers.Abstractions.dll" />
+    <None Remove="bin\Release\netstandard2.0\\Demo.DecoratedHandlers.Internal.dll" />
 
     <!-- Pack the attributes dll in the analyzers/dotnet/cs path --><!--
     <None Include="$(OutputPath)\Demo.DecoratedHandlers.Abstractions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />-->
 
     <!-- Pack the attributes dll in the lib\netstandard2.0 path -->
     <None Include="$(OutputPath)\Demo.DecoratedHandlers.Abstractions.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Demo.DecoratedHandlers.Internal\Demo.DecoratedHandlers.Internal.csproj" />
+    <None Include="$(OutputPath)\Demo.DecoratedHandlers.Internal.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
   </ItemGroup>
 </Project>

@@ -19,6 +19,7 @@ public static class Verifier
             var refs = new[]
             {
                 typeof(IRequestHandler<,>).Assembly,
+                typeof(RegistrationExtensions).Assembly,
                 typeof(PipelineGenerator).Assembly,
                 typeof(ServiceCollectionDescriptorExtensions).Assembly
             };

@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj" />
     <ProjectReference Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj" />
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Internal\Demo.DecoratedHandlers.Internal.csproj" />
   </ItemGroup>
 
   <ItemGroup>

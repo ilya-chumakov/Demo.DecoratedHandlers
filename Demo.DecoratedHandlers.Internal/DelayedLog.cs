@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Demo.DecoratedHandlers.Abstractions;
+namespace Demo.DecoratedHandlers.Gen;
 
 // todo ensure not visible in user code
 // add log publication via hosted service

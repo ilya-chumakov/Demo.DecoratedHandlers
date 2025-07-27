@@ -99,6 +99,7 @@ public class PipelineGeneratorTests(ITestOutputHelper output)
     private void AssertEquality(TestFile expectedFile, string actual)
     {
         output.WriteLine("Asserting with the expected file: " + expectedFile.Name);
+        output.WriteLine("");
 
         TextHelper.AssertEqualityWithDiffPlex(expectedFile.Content, actual, output);
     }
