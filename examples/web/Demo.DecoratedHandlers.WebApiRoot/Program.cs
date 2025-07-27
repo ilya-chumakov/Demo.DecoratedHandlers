@@ -1,8 +1,5 @@
 using Demo.DecoratedHandlers.Abstractions;
 using Demo.DecoratedHandlers.FooDomain;
-using Demo.DecoratedHandlers.Gen;
-using Demo.DecoratedHandlers.WebApiRoot;
-using FancyGlobalPrefix;
 
 var builder = WebApplication.CreateBuilder(args);
 

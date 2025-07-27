@@ -7,20 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Demo.DecoratedHandlers.Gen" Version="1.0.13" />
+    <PackageReference Include="Demo.DecoratedHandlers.Gen" Version="1.0.14" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
   </ItemGroup>
 
   <!--<ItemGroup>
     <ProjectReference Include="..\Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj" />
-  </ItemGroup>-->
-
-  <!--
-    <ProjectReference 
-      Include="..\Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true" />
-
   </ItemGroup>-->
 
 </Project>
