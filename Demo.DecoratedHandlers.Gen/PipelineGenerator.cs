@@ -99,7 +99,6 @@ public class PipelineGenerator : IIncrementalGenerator
                 index++;
 
                 // FYI: use Name property for short name
-                // todo do we really need to call ToDisplayString?
 
                 var description = new HandlerDescription(
                     Name: handler.Name,
