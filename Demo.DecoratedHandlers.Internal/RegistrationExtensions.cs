@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace Demo.DecoratedHandlers.Gen;
 
 // InternalsVisibleTo won't work if directly called from another assembly
-// todo why can't I move it from the assembly?
 public static class RegistrationExtensions
 {
     public static void ReplaceWithPipeline<TClosedInterface, THandler, TPipeline>(

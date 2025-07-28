@@ -14,7 +14,7 @@ public static class AddDecoratedHandlersExtension
 {
     private static readonly Type RegistryInterface = typeof(IPipelineRegistry);
     private static readonly RegistrationVerifier Verifier;
-    public static readonly DelayedLog Log = new();
+    internal static readonly DelayedLog Log = new();
 
     static AddDecoratedHandlersExtension()
     {

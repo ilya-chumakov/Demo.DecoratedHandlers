@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Demo.DecoratedHandlers.Gen;
 
-public class DelayedLogHostedService(ILogger<DelayedLogHostedService> logger) : IHostedService
+internal class DelayedLogHostedService(ILogger<DelayedLogHostedService> logger) : IHostedService
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {

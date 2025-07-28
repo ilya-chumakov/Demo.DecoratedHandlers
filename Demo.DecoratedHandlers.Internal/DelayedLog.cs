@@ -2,9 +2,7 @@
 
 namespace Demo.DecoratedHandlers.Gen;
 
-// todo ensure not visible in user code
-// add log publication via hosted service
-public class DelayedLog
+internal class DelayedLog
 {
     List<Action<ILogger>> _logs = [];
 
