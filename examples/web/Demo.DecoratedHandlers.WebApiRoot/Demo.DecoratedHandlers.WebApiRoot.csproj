@@ -4,9 +4,6 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-
-    <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,13 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Demo.DecoratedHandlers.BarDomain\Demo.DecoratedHandlers.BarDomain.csproj" />
     <ProjectReference Include="..\Demo.DecoratedHandlers.FooDomain\Demo.DecoratedHandlers.FooDomain.csproj" />
-
-    <!--<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />-->
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <Folder Include="Generated\" />
-  </ItemGroup>-->
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>DEBUG;TRACE;LAUNCH_DEBUGGER</DefineConstants>
