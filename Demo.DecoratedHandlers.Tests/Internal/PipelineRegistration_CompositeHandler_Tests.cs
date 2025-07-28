@@ -7,7 +7,7 @@ using Demo.DecoratedHandlers.Gen;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Demo.DecoratedHandlers.Tests.Abstractions;
+namespace Demo.DecoratedHandlers.Tests.Internal;
 
 public class PipelineRegistration_CompositeHandler_Tests
 {

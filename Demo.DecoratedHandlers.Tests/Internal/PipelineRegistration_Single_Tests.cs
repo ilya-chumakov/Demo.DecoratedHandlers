@@ -8,7 +8,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Demo.DecoratedHandlers.Tests.Abstractions;
+namespace Demo.DecoratedHandlers.Tests.Internal;
 
 public class PipelineRegistration_Single_Tests
 {

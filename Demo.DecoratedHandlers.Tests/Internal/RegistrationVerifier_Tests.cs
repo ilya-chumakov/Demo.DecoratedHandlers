@@ -5,7 +5,7 @@ using Demo.DecoratedHandlers.Abstractions;
 using Demo.DecoratedHandlers.Gen;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Demo.DecoratedHandlers.Tests.Abstractions;
+namespace Demo.DecoratedHandlers.Tests.Internal;
 
 public class RegistrationVerifier_Tests
 {

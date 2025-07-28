@@ -2,7 +2,7 @@
 using Demo.DecoratedHandlers.Gen;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Demo.DecoratedHandlers.Tests.Abstractions;
+namespace Demo.DecoratedHandlers.Tests.Internal;
 
 public class AddDecoratedHandlersExtension_AssemblyScan_Tests
 {
