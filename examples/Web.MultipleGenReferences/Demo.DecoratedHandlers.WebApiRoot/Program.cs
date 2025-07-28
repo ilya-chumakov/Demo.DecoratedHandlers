@@ -11,12 +11,11 @@ services.AddOpenApi();
 
 services.AddTransient<IRequestHandler<FooQuery, FooResponse>, FooQueryHandler>();
 services.AddTransient<IRequestHandler<BarQuery, BarResponse>, BarQueryHandler>();
-//services.AddPipelines();
 services.AddDecoratedHandlers();
-//services.AddDecoratedHandlers(x => x.ScanAssemblies = [typeof(FooQuery).Assembly, typeof(BarQuery).Assembly]);
 
+//services.AddDecoratedHandlers(x => x.ScanAssemblies = [typeof(FooQuery).Assembly, typeof(BarQuery).Assembly]);
 //services.AddDecoratedHandlers<FancyGlobalPrefix.PipelineRegistry>();
-//services.AddHostedService<DelayedLogHostedService>();
+
 var app = builder.Build();
 
 var foo = app.Services.GetRequiredService<IRequestHandler<FooQuery, FooResponse>>();

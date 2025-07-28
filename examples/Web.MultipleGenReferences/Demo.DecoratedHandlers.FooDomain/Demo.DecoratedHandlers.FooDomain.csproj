@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Demo.DecoratedHandlers.Core\Demo.DecoratedHandlers.Core.csproj" />
+  </ItemGroup>
+
 </Project>
