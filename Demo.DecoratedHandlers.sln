@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Gen", "Demo.DecoratedHandlers.Gen\Demo.DecoratedHandlers.Gen.csproj", "{02E76C78-4587-42FF-9F88-3D6C42B191CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.NoGeneration.Tests", "Demo.DecoratedHandlers.NoGeneration.Tests\Demo.DecoratedHandlers.NoGeneration.Tests.csproj", "{91B7BC34-0C0D-4A04-AC7A-3C9798C8DAD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Playground", "Demo.DecoratedHandlers.Playground\Demo.DecoratedHandlers.Playground.csproj", "{91B7BC34-0C0D-4A04-AC7A-3C9798C8DAD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DecoratedHandlers.Abstractions", "Demo.DecoratedHandlers.Abstractions\Demo.DecoratedHandlers.Abstractions.csproj", "{B164ACF6-DDCA-4281-9519-4E757B1127BC}"
 EndProject
