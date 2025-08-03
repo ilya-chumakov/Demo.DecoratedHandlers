@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 // ReSharper disable PreferConcreteValueOverDefault
 // ReSharper disable RedundantLambdaParameterType
+// ReSharper disable UseCollectionExpression
 #pragma warning disable IDE0305
 
 namespace Demo.DecoratedHandlers.Gen;
@@ -89,8 +90,10 @@ public class PipelineGenerator : IIncrementalGenerator
 
             List<HandlerDescription> descriptions = [];
 
-            // todo ensure stable order only on debug/testing
-            interfaces = interfaces.OrderBy(x => x.TypeArguments[0].Name!);
+
+            //if (Environment.GetEnvironmentVariable("IS_TEST_RUNNER") != null)
+            // use conditional environment check if any more problems with the expected order in tests
+            //interfaces = interfaces.OrderBy(x => x.TypeArguments[0].Name!); 
 
             int index = 0;
             foreach (INamedTypeSymbol interf in interfaces)
