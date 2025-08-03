@@ -1,7 +1,7 @@
-﻿using Bodrocode.Xunit.Logs;
+﻿//using Bodrocode.Xunit.Logs;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
+//using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.NoGeneration.Tests;
 
@@ -11,10 +11,11 @@ public class RequestHandlerTests(ITestOutputHelper output)
     public async Task ConcreteHandler_WrapperIsCoded_HandlerIsReplaced()
     {
         var services = new ServiceCollection();
-        services.AddLogging(cfg =>
-        {
-            cfg.AddXunit(output);
-        });
+        //services.AddLogging(cfg =>
+        //{
+        //    cfg.AddXunit(output);
+        //});
+        services.AddLogging();
         services.AddTransient<IRequestHandler<BarQuery, BarResponse>, BarQueryHandler>();
         services.AddTransient(typeof(FirstBehavior<,>));
         services.AddTransient(typeof(SecondBehavior<,>));

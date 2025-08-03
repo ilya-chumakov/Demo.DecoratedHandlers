@@ -3,7 +3,7 @@ using System.Reflection;
 //using Demo.DecoratedHandlers.FooDomain;
 using Demo.DecoratedHandlers.Gen;
 using FluentAssertions;
-using Xunit.Abstractions;
+//using Xunit.Abstractions;
 
 namespace Demo.DecoratedHandlers.Tests;
 

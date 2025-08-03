@@ -1,12 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Bodrocode.Xunit.Logs;
 using Demo.DecoratedHandlers.Gen;
 using FluentAssertions;
 using Meziantou.Extensions.Logging.InMemory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
 
 // ReSharper disable InconsistentNaming
 
@@ -20,10 +18,10 @@ public class GenDemo
     public GenDemo(ITestOutputHelper output)
     {
         services.AddSingleton<ILoggerProvider>(loggerProvider);
-        services.AddLogging(cfg =>
-        {
-            cfg.AddXunit(output);
-        });
+        //services.AddLogging(cfg =>
+        //{
+        //    cfg.AddXunit(output);
+        //});
     }
 
     [Fact(Skip = "under construction")]
