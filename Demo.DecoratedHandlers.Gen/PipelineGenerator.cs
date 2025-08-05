@@ -78,13 +78,13 @@ public class PipelineGenerator : IIncrementalGenerator
             INamedTypeSymbol handler = ctx.SemanticModel.GetDeclaredSymbol(syntax);
 
             if (handler is not { IsGenericType: false, IsAnonymousType: false } ||
-                handler.AllInterfaces is not { Length: > 0 })
+                handler.Interfaces is not { Length: > 0 })
                 return default;
 
             // GetTypeByMetadataName call to get interface symbol for filtering
             // maybe less efficient since it may perform full assembly scan
 
-            IEnumerable<INamedTypeSymbol> interfaces = handler.AllInterfaces.Where(i =>
+            IEnumerable<INamedTypeSymbol> interfaces = handler.Interfaces.Where(i =>
                 i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
                 i.Name == AbstractionsMetadata.RequestInterfaceSymbolName);
 
@@ -126,10 +126,10 @@ public class PipelineGenerator : IIncrementalGenerator
             INamedTypeSymbol behavior = ctx.SemanticModel.GetDeclaredSymbol(syntax);
 
             if (behavior is not { IsGenericType: true, IsAnonymousType: false } ||
-                behavior.AllInterfaces is not { Length: > 0 })
+                behavior.Interfaces is not { Length: > 0 })
                 return default;
 
-            INamedTypeSymbol interf = behavior.AllInterfaces.FirstOrDefault(i =>
+            INamedTypeSymbol interf = behavior.Interfaces.FirstOrDefault(i =>
                 i.ContainingAssembly.Name == AbstractionsMetadata.AssemblySymbolName &&
                 i.Name == AbstractionsMetadata.BehaviorInterfaceSymbolName);
 
